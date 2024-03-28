@@ -1,41 +1,25 @@
-#App {
-  text-align: center;
-}
 #cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #090a0b;
   padding: 10px;
-  display: flex;
+}
+#cab-right {
+  display:flex;
 }
 .logo {
   width: 70px;
-  display:flex;
-}
-.nav-link-left {
-  color: white; /* Color del texto de los enlaces */
-  margin-left: 10px; /* Espacio entre los enlaces */
-  text-decoration: none; /* Quita el subrayado de los enlaces */
-  justify-content: left;
-}
-
-.nav-link-right {
-  color: white; /* Color del texto de los enlaces */
-  margin-left: 10px; /* Espacio entre los enlaces */
-  text-decoration: none; /* Quita el subrayado de los enlaces */
-  /* display: flex;
-  justify-content: right;
-  align-items: right; */
-
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: flex-end;
 }
 
+.navbar-links {
+  display: flex;
+}
 
-
+.navbar-links .nav-link {
+  color: white;
+  margin-left: 10px;
+  text-decoration: none;
+}

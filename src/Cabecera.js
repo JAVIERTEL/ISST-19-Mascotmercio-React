@@ -2,24 +2,32 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 function Cabecera() {
-  return (<div id="cabecera">
-    <Navbar bg="light" expand="lg">
-      <Container>
-      <img className = "logo" src= {process.env.PUBLIC_URL + "/logomascotmercio.png"} alt="logo"/>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  return (
+    <div id="cabecera">
+      <Navbar bg="light" expand="lg">
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home" className="nav-link-left">HomePage</Nav.Link>
-            <Nav.Link href="#places"  className="nav-link-left">Places</Nav.Link>
-            <Nav.Link href="#map"  className="nav-link-left">Map</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#login"  className="nav-link-right">Log In</Nav.Link>
-          </Nav>
+          <Container>
+            <Nav className="navbar-links ms-auto">
+              <Nav.Link href="#home">HomePage</Nav.Link>
+              <Nav.Link href="#places">Places</Nav.Link>
+              <Nav.Link href="#map">Map</Nav.Link>
+            </Nav>
+          </Container>
+        
         </Navbar.Collapse>
-      </Container>
-    </Navbar>
+      </Navbar>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Container id="cab-right">
+          <img className="logo" src={process.env.PUBLIC_URL + "/logomascotmercio.png"} alt="logo" />
+            <Nav className="navbar-links ms-auto">
+              <Nav.Link href="#Login">Log in</Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar.Collapse>
+      </Navbar>
     </div>
+    
   );
 }
 
