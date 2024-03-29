@@ -1,3 +1,4 @@
+/* CSS de cabecera */
 #cabecera {
   display: flex;
   justify-content: space-between;
@@ -8,7 +9,7 @@
 #cab-right {
   display:flex;
 }
-.logo {
+.logo-cabecera {
   width: 70px;
   display: flex;
   justify-content: flex-end;
@@ -22,4 +23,25 @@
   color: white;
   margin-left: 10px;
   text-decoration: none;
+}
+/* CSS HomePage */
+#homepage {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
+}
+.logo{
+  width: 250px;
+  
+}
+.centered-text {
+  text-align: center;
+}
+
+.bold-font {
+  font-weight: bold;
+  font-family: Candara, sans-serif; /* Cambia el estilo de la fuente según tus preferencias */
 }
