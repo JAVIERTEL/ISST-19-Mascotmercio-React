@@ -8,12 +8,11 @@ function Cabecera() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Container>
             <Nav className="navbar-links ms-auto">
-              <Nav.Link href="HomePage">HomePage</Nav.Link>
-              <Nav.Link href="Places">Places</Nav.Link>
-              <Nav.Link href="Map">Map</Nav.Link>
+              <Nav.Link href="HomePage"style={{ color: 'white' }}>HomePage</Nav.Link>
+              <Nav.Link href="Places"style={{ color: 'white' }}>Places</Nav.Link>
+              <Nav.Link href="Map"style={{ color: 'white' }}>Map</Nav.Link>
             </Nav>
           </Container>
-        
         </Navbar.Collapse>
       </Navbar>
       <Navbar bg="transparent" expand="lg">
