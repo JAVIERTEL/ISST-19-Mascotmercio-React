@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import  Button  from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.rtl.min.css';
+import { Link } from 'react-router-dom/dist';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -33,6 +36,10 @@ function Login() {
           />
         </div>
         <button type="submit">Iniciar sesión</button>
+        <Link to="/registro">
+         <Button className=".grey-button">Regístrate</Button>
+        </Link>
+                        
       </form>
     </div>
   );

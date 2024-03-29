@@ -6,6 +6,7 @@ import Map from './Componentes/Map'; // Importa el componente Map
 import Places from './Componentes/Places'; // Importa el componente Places
 import Login from './Componentes/Login'; // Importa el componente Login
 import Reseña from './Componentes/Reseña'; //Importa el componente Reseña
+import Registro from './Componentes/Registro';
 
 import {BrowserRouter,Route,Routes} from "react-router-dom";
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/Places' element ={<Places/>}></Route>
         <Route path='/Reseña' element={<Reseña/>}></Route>
         <Route path='/Login' element ={<Login/>}></Route>
+        <Route path='/Registro' element ={<Registro/>}></Route>
         
 
       </Routes>

@@ -12,12 +12,22 @@ const handleSubmit = (e) => {
     
   };
 
+const handleRating = (e) => {
+    const newRating = parseInt(e.target.value, 10);
+    const limitedRating = Math.min(newRating, 5); // Limit to a maximum of 5
+    setRating(limitedRating);
+}
+
 
     return (
-        <div>
-        <h2 className="text-center">Añade tu reseña</h2>
-        <label htmlFor="reseña">Reseña: </label>
-        <input
+        <div className="text-center">
+        <h2 >Añade tu reseña</h2>
+        <div style={{ display: 'flex', alignItems: 'center' }}></div>
+        <label htmlFor="reseña" style={{marginRigth: '10px'}}>
+            Reseña: </label>
+        <textarea
+        rows="4"
+        columns="20"
          type="text"
          id="reseña" 
          onChange={(e) => setReseña(e.target.value)}
@@ -28,7 +38,7 @@ const handleSubmit = (e) => {
         <input
          type="number"
          id="rating" 
-         onChange={(e) => setRating(e.target.value)}
+         onChange={handleRating}
          />
         </div>
     );
