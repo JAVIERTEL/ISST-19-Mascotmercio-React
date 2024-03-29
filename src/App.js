@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import Cabecera from './Cabecera'; // Importa el componente Cabecera
-import HomePage from './HomePage'; // Importa el componente HomePage
+import Cabecera from './Componentes/Cabecera'; // Importa el componente Cabecera
+import HomePage from './Componentes/HomePage'; // Importa el componente HomePage
 
 function App() {
   return (
