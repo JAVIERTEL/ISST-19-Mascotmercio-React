@@ -1,12 +1,16 @@
 import React from 'react';
 import  Button  from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.rtl.min.css'
+import 'bootstrap/dist/css/bootstrap.rtl.min.css';
+import { Link } from 'react-router-dom'; // Importa el componente Link de react-router-dom
+
 function HomePage() {
   return (
     <div id="homepage">
       <img className="logo" src={process.env.PUBLIC_URL + "/logomascotmercio.png"} alt="logo" />
       <br/>
-      <Button variant="dark" className="w-25 mb-4">Accede</Button>
+      <Link to="/login">
+      <Button variant="dark" >Accede</Button>
+      </Link>
       <p className="centered-text mt-3 fw-bold">
         <span className="bold-font">
           "El objetivo de este proyecto es desarrollar un servicio que permita por<br></br>
