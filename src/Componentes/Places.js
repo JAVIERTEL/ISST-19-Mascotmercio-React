@@ -1,9 +1,17 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import  Button  from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.rtl.min.css';
+import { Link } from 'react-router-dom/dist';
 function Places() {
 
     const [tienda,setTienda] = useState ([]);
+
+    useEffect(() => {
+        //Aqui metemos la peticion de la API que dice Javi. Pero hasta entonces metemos una tienda de prueba para poner bien los botones.
+    setTienda([
+        {id_tienda:1, nombre:"Tienda prueba", dirección: "Calle inventada", servicios: "Peluqueria"},
+    ]);
+    }, []);
 
     return (
 <div>
@@ -24,8 +32,14 @@ function Places() {
                         <td>{tienda.dirección}</td>
                         <td>{tienda.servicios}</td>
                         <td>
-                        <Button variant="blue" >Update</Button>
-                        <Button variant="red" >Delete</Button>
+                        <Button className="primary">Update</Button>
+                        <Button variant="danger">Delete</Button>
+                        <p>
+                        <Link to="/reseña">
+                        <Button className=".grey-button">Añade tu reseña</Button>
+                        </Link>
+                        
+                        </p>
                         </td>
                     </tr>
                 )
@@ -33,6 +47,8 @@ function Places() {
         </tbody>
 
 </table>
+
+
 <span>Lo que habrá que hacer aquí es crear un fichero en servicios que haga
 una petición a la api y que saque todos los locales y a continuación implemetar
 esa vista aquí junto con los botones Update y Delete
@@ -43,7 +59,10 @@ https://www.youtube.com/watch?v=3Cy3KCirn5U&t=15711s&ab_channel=LaTecnolog%C3%AD
 Por el 3 horas 45 minutos
 </span>
 
+
+
 </div>
 
     );
 }export default Places;
+

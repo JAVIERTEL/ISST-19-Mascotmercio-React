@@ -45,3 +45,15 @@
   font-weight: bold;
   font-family: Candara, sans-serif; /* Cambia el estilo de la fuente según tus preferencias */
 }
+
+.grey-button {
+  background-color: grey;
+  color: white;
+  
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+  
+}
