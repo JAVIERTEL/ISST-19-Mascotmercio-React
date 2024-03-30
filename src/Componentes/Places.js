@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom/dist';
 function Places() {
 
     const [tienda,setTienda] = useState ([]);
-    const [propietario, setPropietario] = useState(false);
+    const [propietario, setPropietario] = useState(true);
 
     useEffect(() => {
         //Aqui metemos la peticion de la API que dice Javi. Pero hasta entonces metemos una tienda de prueba para poner bien los botones.
@@ -32,20 +32,20 @@ function Places() {
                         <td>{tienda.nombre}</td>
                         <td>{tienda.dirección}</td>
                         <td>{tienda.servicios}</td>
-                        <td>
+                        <td >
                         {propietario && (
                         <>
-                        <Button className="primary">Update</Button>
-                        <Button variant="danger">Delete</Button>
+                        <Button variant="primary">Update</Button>
+                        <Button variant="danger" style={{ marginRight: "10px" }}>Delete</Button>
                         </>
                         )}
 
-                        <p>
+                 
                         <Link to="/reseña">
-                        <Button className=".grey-button">Añade tu reseña</Button>
+                        <Button variant="outline-secondary">Reseñas</Button>
                         </Link>
                         
-                        </p>
+                        
                         </td>
                     </tr>
                 )

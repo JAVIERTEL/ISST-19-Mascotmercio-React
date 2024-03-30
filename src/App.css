@@ -46,14 +46,9 @@
   font-family: Candara, sans-serif; /* Cambia el estilo de la fuente según tus preferencias */
 }
 
-.grey-button {
-  background-color: grey;
-  color: white;
-  
-}
+/* CSS Places */
 
-.red-button {
-  background-color: red;
-  color: white;
-  
+#boton-reseñas{
+
+  display: flex;
 }

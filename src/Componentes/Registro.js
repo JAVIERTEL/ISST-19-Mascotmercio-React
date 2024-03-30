@@ -38,7 +38,7 @@ function Registro() {
         </div>
         
         
-         <Button className=".grey-button">Regístrate</Button>
+         <Button variant="success">Regístrate</Button>
         
                         
     </div>
