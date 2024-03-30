@@ -56,3 +56,24 @@
   align-items: center; /* Centra verticalmente */
   height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
 }
+/* CSS  Registro */
+
+.register-container{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
+}
+
+/* CSS Login */
+
+.login-container{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
+}
