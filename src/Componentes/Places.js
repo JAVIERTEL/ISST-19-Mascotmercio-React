@@ -35,7 +35,9 @@ function Places() {
                         <td >
                         {propietario && (
                         <>
+                         <Link to="/AñadeNegocio">
                         <Button variant="primary">Update</Button>
+                        </Link>
                         <Button variant="danger" style={{ marginRight: "10px" }}>Delete</Button>
                         </>
                         )}

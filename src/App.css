@@ -46,9 +46,13 @@
   font-family: Candara, sans-serif; /* Cambia el estilo de la fuente según tus preferencias */
 }
 
-/* CSS Places */
+/* CSS Añade negocio */
 
-#boton-reseñas{
-
+#añadenegocio {
+  margin-top: 10px;
   display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
 }
