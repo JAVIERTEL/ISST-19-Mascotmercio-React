@@ -33,17 +33,19 @@ function Places() {
                         <td>
                         {
                         <>
-                        <Button className="primary">Update</Button>
-                        <Button variant="danger">Delete</Button>
+                         <Link to="/AñadeNegocio">
+                        <Button variant="primary">Update</Button>
+                        </Link>
+                        <Button variant="danger" style={{ marginRight: "10px" }}>Delete</Button>
                         </>
                         }
 
-                        <p>
+                 
                         <Link to="/reseña">
-                        <Button className=".grey-button">Añade tu reseña</Button>
+                        <Button variant="outline-secondary">Reseñas</Button>
                         </Link>
                         
-                        </p>
+                        
                         </td>
                     </tr>
                 )

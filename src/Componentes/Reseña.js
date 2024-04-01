@@ -1,48 +1,90 @@
 import React, { useState } from 'react';
+import StarRatingComponent from 'react-star-rating-component';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+const Reseñas = () => {
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({
+    text: '',
+    rating: 0,
+    photos: [],
+  });
 
-function Reseña() {
-
-    const [reseña, setReseña] = useState('')
-    const [rating, setRating] = useState(0)
-
-
-const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aquí puedes agregar lógica para enviar la información de reseña al servidor
-    
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewReview((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-const handleRating = (e) => {
-    const newRating = parseInt(e.target.value, 10);
-    const limitedRating = Math.min(newRating, 5); // Limit to a maximum of 5
-    setRating(limitedRating);
-}
+  const onStarClick = (nextValue) => {
+    setNewReview((prevState) => ({
+      ...prevState,
+      rating: nextValue,
+    }));
+  };
 
+  const handlePhotoUpload = (e) => {
+    const files = e.target.files;
+    const uploadedPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
+    setNewReview((prevState) => ({
+      ...prevState,
+      photos: prevState.photos.concat(uploadedPhotos),
+    }));
+  };
 
-    return (
-        <div className="text-center">
-        <h2 >Añade tu reseña</h2>
-        <div style={{ display: 'flex', alignItems: 'center' }}></div>
-        <label htmlFor="reseña" style={{marginRigth: '10px'}}>
-            Reseña: </label>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setReviews((prevReviews) => [...prevReviews, newReview]);
+    setNewReview({
+      text: '',
+      rating: 0,
+      photos: [],
+    });
+  };
+
+  return (
+    <div>
+      <h2>Reseñas</h2>
+      <form onSubmit={handleSubmit}>
         <textarea
-        rows="4"
-        columns="20"
-         type="text"
-         id="reseña" 
-         onChange={(e) => setReseña(e.target.value)}
-         />
-         <p></p>
+          name="text"
+          value={newReview.text}
+          onChange={handleInputChange}
+          placeholder="Escribe tu reseña aquí..."
+          required
+        />
+        <input type="file" multiple onChange={handlePhotoUpload} />
+        <StarRatingComponent
+          name="rating"
+          starCount={5}
+          value={newReview.rating}
+          onStarClick={onStarClick}
+        />
+        <Button type="submit">Enviar reseña</Button>
+      </form>
+      <div>
+        {reviews.map((review, index) => (
+          <div key={index}>
+            <p>{review.text}</p>
+            <StarRatingComponent
+              name={`rating-${index}`}
+              starCount={5}
+              value={review.rating}
+              editing={false}
+            />
+            <div>
+              {review.photos.map((photo, i) => (
+                <img key={i} src={photo} alt={`Photo ${i}`} style={{ maxWidth: '100px' }} />
+              ))}
+            </div>
+            {/* Aquí podría ir la sección para que los propietarios respondan */}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-        <label htmlFor="reseña">Rating: </label>
-        <input
-         type="number"
-         id="rating" 
-         onChange={handleRating}
-         />
-        </div>
-    );
-
-}
-export default Reseña;
-
+export default Reseñas;

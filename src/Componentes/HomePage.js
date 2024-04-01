@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'; // Importa el componente Link de react-
 function HomePage() {
   return (
     <div id="homepage">
-      <img className="logo" src={process.env.PUBLIC_URL + "/logomascotmercio.png"} alt="logo" />
+      <img className="logo" src={process.env.PUBLIC_URL + "/logomascotmercioNegro.png"} alt="logo" />
       <br/>
       <Link to="/login">
       <Button variant="dark" >Accede</Button>

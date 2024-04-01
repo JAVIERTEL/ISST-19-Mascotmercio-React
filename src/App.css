@@ -46,14 +46,36 @@
   font-family: Candara, sans-serif; /* Cambia el estilo de la fuente según tus preferencias */
 }
 
-.grey-button {
-  background-color: grey;
-  color: white;
-  
+/* CSS Añade negocio */
+
+#añadenegocio {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
+}
+/* CSS  Registro */
+
+.register-container{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
 }
 
-.red-button {
-  background-color: red;
-  color: white;
-  
+/* CSS Login */
+
+.login-container{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Opcional: ajusta la altura del contenedor al 100% del viewport */
 }
+
+/* CSS reseñas */
