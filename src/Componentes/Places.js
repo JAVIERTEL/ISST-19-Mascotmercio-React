@@ -4,15 +4,19 @@ import 'bootstrap/dist/css/bootstrap.rtl.min.css';
 import { Link } from 'react-router-dom/dist';
 function Places() {
 
-    const [tiendas,setTiendas] = useState ([]);
     const [propietario, setPropietario] = useState(false);
+    const [servicios, setServicios] = useState([]);
+
 
     useEffect(() => {
-        fetch('http://localhost:8085/api/tienda/findAll')
+        fetch('http://localhost:8085/api/servicio/findAll')
             .then(response => response.json())
-            .then(data => setTiendas(data))
+            .then(data => {
+                setServicios(data);
+            })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
+
 
     return (
 <div>
@@ -21,15 +25,23 @@ function Places() {
         <thead>
             <th>Place Name</th>
             <th>Dirección</th>
+            <th>Servicios</th>
             <th>Actions</th>
         </thead>
         <tbody>
             {
-                tiendas.map (
-                    tienda =>
-                    <tr key= {tienda.idTienda}>
-                        <td>{tienda.nombre}</td>
-                        <td>{tienda.direccion}</td>
+                servicios.map (
+                    servicio =>
+                    <tr key= {servicio.idServicio}>
+                        <td>{servicio.tienda.nombre}</td>
+                        <td>{servicio.tienda.direccion}</td>
+                        <td>
+                                <ul>
+                                    {Object.entries(servicio || {}).map(([clave, valor]) => (
+                                        typeof valor === 'boolean' && valor && <li key={clave}>{clave}</li>
+                                    ))}
+                                </ul>
+                            </td>
                         <td>
                         {
                         <>
