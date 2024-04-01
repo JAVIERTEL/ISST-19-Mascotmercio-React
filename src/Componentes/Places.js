@@ -4,14 +4,14 @@ import 'bootstrap/dist/css/bootstrap.rtl.min.css';
 import { Link } from 'react-router-dom/dist';
 function Places() {
 
-    const [tienda,setTienda] = useState ([]);
+    const [tiendas,setTiendas] = useState ([]);
     const [propietario, setPropietario] = useState(false);
 
     useEffect(() => {
-        //Aqui metemos la peticion de la API que dice Javi. Pero hasta entonces metemos una tienda de prueba para poner bien los botones.
-    setTienda([
-        {id_tienda:1, nombre:"Tienda prueba", dirección: "Calle inventada", servicios: "Peluqueria"},
-    ]);
+        fetch('http://localhost:8085/api/tienda/findAll')
+            .then(response => response.json())
+            .then(data => setTiendas(data))
+            .catch(error => console.error('Error fetching data:', error));
     }, []);
 
     return (
@@ -21,24 +21,22 @@ function Places() {
         <thead>
             <th>Place Name</th>
             <th>Dirección</th>
-            <th>Servicios</th>
             <th>Actions</th>
         </thead>
         <tbody>
             {
-                tienda.map (
+                tiendas.map (
                     tienda =>
-                    <tr key= {tienda.id_tienda}>
+                    <tr key= {tienda.idTienda}>
                         <td>{tienda.nombre}</td>
-                        <td>{tienda.dirección}</td>
-                        <td>{tienda.servicios}</td>
+                        <td>{tienda.direccion}</td>
                         <td>
-                        {propietario && (
+                        {
                         <>
                         <Button className="primary">Update</Button>
                         <Button variant="danger">Delete</Button>
                         </>
-                        )}
+                        }
 
                         <p>
                         <Link to="/reseña">
