@@ -27,8 +27,14 @@ function Places() {
     }
     const handleDeleteServicio = async (id) => {
         try {
+            const servicio = servicios.find(servicio => servicio.idServicio === id);
+            if (!servicio) {
+            console.error('Servicio no encontrado');
+            return;
+            }
             // Realiza la solicitud DELETE utilizando la función de tu servicio API
             await apiServiceInstance.deleteServicio(id);
+            await apiServiceInstance.deleteTienda(servicio.tienda.idTienda);
             
             // Actualiza la lista de tiendas después de eliminar una
             await fetchData();
