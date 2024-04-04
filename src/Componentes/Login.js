@@ -26,7 +26,9 @@ function Login() {
           <input type="password" id="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div className="d-grid gap-2 mb-3">
+        <Link to="/places">
           <Button variant="primary" type="submit">Iniciar sesión</Button>
+        </Link>
         </div>
         <p className="mb-0 text-center">¿No tienes una cuenta? <Link to="/registro">Regístrate</Link></p>
       </form>

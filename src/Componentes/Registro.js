@@ -29,6 +29,7 @@ function Registro() {
         // Crea un cliente
         await apiServiceInstance.crearCliente(usuario, contrasena, email);
     }
+    
       //await apiServiceInstance.crearCliente(usuario, contrasena, email);
       
   } catch (error) {
@@ -36,8 +37,6 @@ function Registro() {
   }
   }
 
-
-  const isDisabled = !usuario || !contrasena || !email;
 
   return (
     <div className="register-container" style={{ maxWidth: '500px', margin: '0 auto' }}>
@@ -64,7 +63,7 @@ function Registro() {
                     <label className="form-check-label" htmlFor="propietario">Registrarse como propietario</label>
                 </div>
       <Link to="/places">
-        <Button variant="success" type="submit" onClick= {() => handleCrear(usuario, contrasena, email)} disabled={isDisabled}>Regístrate</Button>
+        <Button variant="success" type="submit" onClick= {() => handleCrear(usuario, contrasena, email)}>Regístrate</Button>
         </Link>
       </div>
       <p className="mb-0 text-center">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
