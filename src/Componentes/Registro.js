@@ -11,22 +11,33 @@ function Registro() {
   const [usuario, setUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
   //const [contrasena2, setContrasena2] = useState('');
+  const [esPropietario, setEsPropietario] = useState(false);
 
 
-  const handleCrearCliente = async(usuario, contrasena, email)  => {
+  const handleCrear = async(usuario, contrasena, email)  => {
 
     if (!email || !usuario || !contrasena) {
       alert('Por favor, completa todos los campos.');
       return; // No hacer nada si alguna caja de texto está vacía
   }
     try {
-      
-      await apiServiceInstance.crearCliente(usuario, contrasena, email);
+
+      if (esPropietario) {
+        // Crea un propietario en lugar de un cliente
+        await apiServiceInstance.crearPropietario(usuario, contrasena, email);
+    } else {
+        // Crea un cliente
+        await apiServiceInstance.crearCliente(usuario, contrasena, email);
+    }
+      //await apiServiceInstance.crearCliente(usuario, contrasena, email);
       
   } catch (error) {
       console.error('Error creando cliente:', error);
   }
   }
+
+
+  const isDisabled = !usuario || !contrasena || !email;
 
   return (
     <div className="register-container" style={{ maxWidth: '500px', margin: '0 auto' }}>
@@ -48,8 +59,12 @@ function Registro() {
         <input type="password" id="password2" className="form-control" />
       </div>
       <div className="d-grid mb-3">
+      <div className="form-check mb-3">
+                    <input type="checkbox" className="form-check-input" id="propietario" checked={esPropietario} onChange={() => setEsPropietario(!esPropietario)} />
+                    <label className="form-check-label" htmlFor="propietario">Registrarse como propietario</label>
+                </div>
       <Link to="/places">
-        <Button variant="success" type="submit" onClick= {() => handleCrearCliente(usuario, contrasena, email)}>Regístrate</Button>
+        <Button variant="success" type="submit" onClick= {() => handleCrear(usuario, contrasena, email)} disabled={isDisabled}>Regístrate</Button>
         </Link>
       </div>
       <p className="mb-0 text-center">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>

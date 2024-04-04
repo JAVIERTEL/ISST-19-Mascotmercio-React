@@ -48,6 +48,22 @@ class ApiService{
         }
     }
 
+    crearPropietario = async (usuario, contrasena, email) => {
+        try{
+            const nuevoPropietario = {
+                "usuario" : usuario,
+                "contraseña": contrasena,
+                "email" : email
+            }
+
+            const response = await axios.post(Propietario_URL, nuevoPropietario);
+            return response.data;
+        } catch (error) {
+            console.error('Error creando propietario', error);
+            throw error;
+        }
+    }
+
 
     // Reseñas 
 
