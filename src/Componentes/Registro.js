@@ -14,6 +14,11 @@ function Registro() {
 
 
   const handleCrearCliente = async(usuario, contrasena, email)  => {
+
+    if (!email || !usuario || !contrasena) {
+      alert('Por favor, completa todos los campos.');
+      return; // No hacer nada si alguna caja de texto está vacía
+  }
     try {
       
       await apiServiceInstance.crearCliente(usuario, contrasena, email);
@@ -43,7 +48,9 @@ function Registro() {
         <input type="password" id="password2" className="form-control" />
       </div>
       <div className="d-grid mb-3">
+      <Link to="/places">
         <Button variant="success" type="submit" onClick= {() => handleCrearCliente(usuario, contrasena, email)}>Regístrate</Button>
+        </Link>
       </div>
       <p className="mb-0 text-center">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
     </div>
