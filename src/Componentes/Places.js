@@ -1,21 +1,47 @@
 import React, { useEffect, useState} from 'react';
 import  Button  from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.rtl.min.css';
-import { Link } from 'react-router-dom/dist';
+import { Link, useParams } from 'react-router-dom/dist';
+import apiServiceInstance from '../services/ApiService';
+
 function Places() {
 
-    const [propietario, setPropietario] = useState(false);
+    const [tiendas, setTiendas] = useState([]);
     const [servicios, setServicios] = useState([]);
 
-
+    const {id} = useParams();
+    
     useEffect(() => {
-        fetch('http://localhost:8085/api/servicio/findAll')
-            .then(response => response.json())
-            .then(data => {
-                setServicios(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+    fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try{
+        const tiendasData = await apiServiceInstance.getTiendas();
+        const serviciosData = await apiServiceInstance.getServicios();
+        setTiendas(tiendasData);
+        setServicios(serviciosData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+    const handleDeleteServicio = async (id) => {
+        try {
+            const servicio = servicios.find(servicio => servicio.idServicio === id);
+            if (!servicio) {
+            console.error('Servicio no encontrado');
+            return;
+            }
+            // Realiza la solicitud DELETE utilizando la función de tu servicio API
+            await apiServiceInstance.deleteServicio(id);
+            await apiServiceInstance.deleteTienda(servicio.tienda.idTienda);
+            
+            // Actualiza la lista de tiendas después de eliminar una
+            await fetchData();
+        } catch (error) {
+            console.error('Error deleting tienda:', error);
+        }
+    };
 
 
     return (
@@ -48,7 +74,7 @@ function Places() {
                          <Link to="/AñadeNegocio">
                         <Button variant="primary">Update</Button>
                         </Link>
-                        <Button variant="danger" style={{ marginRight: "10px" }}>Delete</Button>
+                        <Button variant="danger" onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>
                         </>
                         }
 
