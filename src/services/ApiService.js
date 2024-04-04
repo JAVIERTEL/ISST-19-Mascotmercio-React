@@ -84,7 +84,7 @@ class ApiService{
     }
 
 
-    
+    // Tiendas
     getTiendas = async () => {
         try {
             const response = await axios.get(USER_API_BASE_URL_TIENDAS + '/findAll');
@@ -95,6 +95,16 @@ class ApiService{
         }
     }
 
+    deleteTienda = async (idTienda) => {
+        try {
+            axios.delete(USER_API_BASE_URL_TIENDAS + '/' + idTienda)
+        }catch(error) {
+            console.log(error)
+        }
+    }
+
+
+    // Servicios
     getServicios = async () => {
         try {
             const response = await axios.get(USER_API_BASE_URL_SERVICIOS+ '/findAll');
@@ -105,14 +115,6 @@ class ApiService{
         }
     }
 
-    deleteTienda = async (idTienda) => {
-    try {
-        axios.delete(USER_API_BASE_URL_TIENDAS + '/' + idTienda)
-    }catch(error) {
-        console.log(error)
-    }
-}
-
     deleteServicio = async (idServicio) => {
         try {
             axios.delete(USER_API_BASE_URL_SERVICIOS + '/' + idServicio)
@@ -120,7 +122,45 @@ class ApiService{
             console.log(error)
         }
     }
-    
+
+    // Post tienda (crear tienda)
+    enviarDatosTienda = async (idTienda, nombreTienda, direccion, nombrePropietario) => {
+        try {
+            console.log(idTienda, nombreTienda, direccion, nombrePropietario)
+            const response = await axios.post(USER_API_BASE_URL_TIENDAS, {
+                "idTienda": idTienda, // Se incluye el ID de la tienda en la solicitud
+                "nombre": nombreTienda,
+                "direccion": direccion,
+                "propietario": {
+                    "usuario": "juan"
+                }
+            }); 
+            return response.data; // Retorna los datos de respuesta si es necesario
+        } catch (error) {
+            throw error; // Lanza el error para manejarlo en el componente
+        }
+    };
+
+     // Post servicio (crear servicio)
+    enviarDatosServicios = async (servicioID, admite_mascota,comida,ocio, peluqueria, accesorios, tiendaID) => {
+        try {
+            const response = await axios.post(USER_API_BASE_URL_SERVICIOS, {
+                "idServicio": servicioID,
+                "admite_mascota": admite_mascota,
+                "comida": comida,
+                "ocio": ocio,
+                "peluqueria": peluqueria,
+                "accesorios": accesorios,
+                "tienda": {
+                    "idTienda": tiendaID
+                }
+            }
+            );
+            return response.data; // Retorna los datos de respuesta si es necesario
+        } catch (error) {
+            throw error; // Lanza el error para manejarlo en el componente
+        }
+    };
 }
 
 const apiServiceInstance = new ApiService();
