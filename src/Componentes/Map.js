@@ -11,15 +11,13 @@ function MapboxMap() {
             zoom: 13
         });
 
-        map.on('load', () => {
-            map.addSource('places', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
+        const geojson = {
+            'type': 'FeatureCollection',
                     'features': [
                         {
                             'type': 'Feature',
                             'properties': {
+                                'title': '<strong>Make it Mount Pleasant</strong>',
                                 'description':
                                     '<strong>Make it Mount Pleasant</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>'
                             },
@@ -30,57 +28,34 @@ function MapboxMap() {
                         },
                         // Otras características...
                     ]
-                }
-            });
-            // Añadir una capa que muestre los lugares.
-            map.addLayer({
-                'id': 'places',
-                'type': 'circle',
-                'source': 'places',
-                'paint': {
-                    'circle-color': '#4264fb',
-                    'circle-radius': 6,
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': '#ffffff'
-                }
-            });
+                };
 
-            // Crear un popup, pero no lo añadas al mapa todavía.
-            const popup = new mapboxgl.Popup({
-                closeButton: false,
-                closeOnClick: true
-            });
+                // add markers to map
+for (const feature of geojson.features) {
+    // create a HTML element for each feature
+    const el = document.createElement('div');
+    el.className = 'marker';
+  
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+    .setLngLat(feature.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+          )
+      )
+    .addTo(map);
+  }
+    },[]);
+        
+        
+        
+           
+           
 
-            map.on('mouseenter', 'places', (e) => {
-                // Cambiar el estilo del cursor como indicador de interfaz de usuario.
-                map.getCanvas().style.cursor = 'pointer';
-
-                // Copiar array de coordenadas.
-                const coordinates = e.features[0].geometry.coordinates.slice();
-                const description = e.features[0].properties.description;
-
-                // Asegurarse de que si el mapa está alejado de tal manera que múltiples
-                // copias de la característica son visibles, el popup aparece
-                // sobre la copia a la que se apunta.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-
-                // Poblar el popup y establecer sus coordenadas
-                // basadas en la característica encontrada.
-                popup.setLngLat(coordinates).setHTML(description).addTo(map);
-            });
-
-            map.on('mouseleave', 'places', () => {
-                map.getCanvas().style.cursor = '';
-                popup.remove();
-            });
-        });
-
-        // Limpiar el mapa cuando el componente se desmonte
-        return () => map.remove();
-    }, []);
-
+      
+    
     return (
         <div>
             <h1>Mapa en desarrollo por Alex</h1>
