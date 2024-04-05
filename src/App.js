@@ -9,7 +9,7 @@ import Reseña from './Componentes/Reseña'; //Importa el componente Reseña
 import Registro from './Componentes/Registro';
 import AñadeNegocio from './Componentes/AñadeNegocio';
 
-import {BrowserRouter,Route,Routes} from "react-router-dom";
+import {BrowserRouter,Route,Routes,Navigate} from "react-router-dom";
 import CrearNegocio from './Componentes/CrearNegocio';
 function App() {
   return (
@@ -25,8 +25,10 @@ function App() {
         <Route path='/Reseña' element={<Reseña/>}></Route>
         <Route path='/Login' element ={<Login/>}></Route>
         <Route path='/Registro' element ={<Registro/>}></Route>
-        <Route path='/AñadeNegocio' element ={<AñadeNegocio/>}></Route>
+        <Route path='/AñadeNegocio/:idServicio' element={<AñadeNegocio />} />
         <Route path='/CrearNegocio' element ={<CrearNegocio/>}></Route>
+
+        <Route path='/AñadeNegocio/Places' element={<Navigate to='/Places' />} />
 
       </Routes>
       </div>

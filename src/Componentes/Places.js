@@ -73,8 +73,7 @@ function Places() {
                             </td>
                             <td>
                                 <>
-                                    <Link to="/AñadeNegocio" style={{ marginRight: '10px' }}>
-                                        <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }}>Update</Button>
+                                <Link to={`/AñadeNegocio/${servicio.tienda.idTienda}`} style={{ marginRight: '10px' }}>                                        <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }}>Update</Button>
                                     </Link>
                                     <Button variant="danger" style={{ backgroundColor: '#E74C3C', textShadow: '1px 1px 2px #000000' }} onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>
                                 </>
