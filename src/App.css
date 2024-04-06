@@ -118,25 +118,62 @@
   height: 100%; /* El mapa ocupará todo el espacio disponible en el contenedor */
 }
 
+
+
 /* Aplicar el margen izquierdo cuando el menú esté abierto */
-.menu-abierto #map {
-  margin-left: 200px;
-}
+
 
 #map-container {
-  position: fixed;
-  top: 200px;
-  bottom: 110px;
-  width: calc(100% - 200px); /* Restar el ancho del menú abierto */
-  overflow-x: hidden; /* Evitar el desplazamiento horizontal */
-  margin-left: 0; /* Valor predeterminado */
-  height: calc(100% - 310px); /* Restar el espacio de la parte superior e inferior */
+  position: relative;
+  width: 100%;
+  height: 80vh; 
+  top: 10px; /* Ajusta este valor según sea necesario */
+  bottom: 0; /* Cambia o ajusta esta propiedad para subir o bajar el mapa */
+  left: 0;
+  right: 0;/* Ajusta la altura según tus necesidades */
 }
+
+.menu-abierto #map{
+  display: inline-block;
+  max-width: 50%;
+
+}
+
 
 
 
 /* Aplicar el margen izquierdo cuando el menú esté abierto */
-.menu-abierto #map-container {
-  margin-left: 200px;
+
+
+.menu-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 1;
 }
+
+.menu-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.menu-abierto .menu {
+  display: inline-block;
+  position: relative;
+  width: 200px; /* Ancho del menú */
+  transition: width 0.3s ease; /* Añadir una transición para suavizar el efecto */
+}
+
+.menu-abierto #map-container{
+  display: flex;
+}
+
+
+
+
+
 
