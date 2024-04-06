@@ -2,9 +2,19 @@ import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import apiServiceInstance from '../services/ApiService';
 import 'mapbox-gl/dist/mapbox-gl.css';
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-ry0CFbq3zHd0UpW7LHFJjSmX3Bu2W1K27clLxiZnS8Tj/FrEW24GAlU4Qkqky4VOMZsPz6Rg3ISdDyiXNvwPUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
+    const [menuAbierto, setMenuAbierto] = useState(false);
+    const coordenadas = [
+        [-3.5678, 40.1234],
+        [-3.9123, 40.5678],
+        [-3.727238, 40.444001]
+    ];
+    
+      
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,7 +34,7 @@ function MapboxMap() {
 
                     const geojson = {
                         'type': 'FeatureCollection',
-                        'features': tiendasData.map(tienda => ({
+                        'features': tiendasData.map((tienda, index) => ({
                             'type': 'Feature',
                             'properties': {
                                 'title': `<strong>${tienda.nombre}</strong>`,
@@ -32,7 +42,7 @@ function MapboxMap() {
                             },
                             'geometry': {
                                 'type': 'Point',
-                                'coordinates': [-3.727238, 40.444001]
+                                'coordinates': coordenadas[index]
                             }
                         }))
                     };
@@ -64,10 +74,43 @@ function MapboxMap() {
         fetchData();
     }, []);
 
+    const toggleMenu = () => {
+        setMenuAbierto(!menuAbierto);
+    };
+
+    const renderMenu = () => {
+        if (menuAbierto) {
+            return (
+                <div className="menu">
+                    <h2>Listado de Tiendas</h2>
+                    <ul>
+                        {tiendas.map(tienda => (
+                            <li key={tienda.id}>
+                                <strong>{tienda.nombre}</strong>
+                                <p>{tienda.direccion}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+        return null;
+    };
+
     return (
         <div>
-            <h1>Mapa en desarrollo por Alex</h1>
-            <div id="map" style={{ position: 'fixed', top: 150, bottom: 110, width: '80%' }}></div>
+            {/* Botón para abrir/cerrar el menú */}
+            <button onClick={toggleMenu} className="toggle-menu">
+                <i className="fas fa-bars" style={{ color: '#3b5998' }}></i> {/* Icono de hamburguesa */}
+            </button>
+
+            {/* Renderizado condicional del menú */}
+            {renderMenu()}
+
+            {/* Contenedor del mapa */}
+            <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
+                <div id="map"></div>
+            </div>
         </div>
     );
 }
