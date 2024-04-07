@@ -37,6 +37,9 @@ function Places() {
 
             // Actualiza la lista de tiendas después de eliminar una
             await fetchData();
+
+            // Recarga la página para mostrar los cambios
+            window.location.reload();
         } catch (error) {
             console.error('Error deleting tienda:', error);
         }
