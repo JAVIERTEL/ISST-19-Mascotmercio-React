@@ -81,7 +81,7 @@
 /* CSS reseñas */
 
 .toggle-menu {
- z-index: 0;
+ z-index: 1;
 }
 
 .menu {
@@ -90,7 +90,10 @@
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  margin-right: 1100px;
+  left: 0;
+  top: 20px;
+  width:200px;
+  transition: width 0.3s ease;
 }
 
 .menu li {
@@ -115,12 +118,11 @@
 
 #map {
   width: 100%; /* El mapa ocupará todo el espacio disponible en el contenedor */
-  height: 100%; /* El mapa ocupará todo el espacio disponible en el contenedor */
+  height: 100%; 
 }
 
 
 
-/* Aplicar el margen izquierdo cuando el menú esté abierto */
 
 
 #map-container {
@@ -130,19 +132,15 @@
   top: 10px; /* Ajusta este valor según sea necesario */
   bottom: 0; /* Cambia o ajusta esta propiedad para subir o bajar el mapa */
   left: 0;
-  right: 0;/* Ajusta la altura según tus necesidades */
-}
-
-.menu-abierto #map{
-  display: inline-block;
-  max-width: 50%;
-
+  right: 0;
+  display: flex;/* Ajusta la altura según tus necesidades */
 }
 
 
 
 
-/* Aplicar el margen izquierdo cuando el menú esté abierto */
+
+
 
 
 .menu-button {
@@ -156,10 +154,17 @@
   z-index: 1;
 }
 
+.menu-abierto .menu-button{
+  left: 220px;
+}
+
+
+
 .menu-icon {
   width: 30px;
   height: 30px;
 }
+
 
 .menu-abierto .menu {
   display: inline-block;
@@ -172,8 +177,9 @@
   display: flex;
 }
 
+.menu-abierto #map{
+  display: inline-block;
 
 
-
-
+}
 

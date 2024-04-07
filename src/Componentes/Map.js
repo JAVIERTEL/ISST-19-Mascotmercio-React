@@ -8,16 +8,10 @@ function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
     const [menuAbierto, setMenuAbierto] = useState(false);
     const [tiendasConCoordenadas, setTiendasConCoordenadas] = useState([]);
-    const coordenadas = [
-        [-3.5678, 40.1234],
-        [-3.9123, 40.5678],
-        [-3.727238, 40.444001]
-    ];
 
-    
     const geocodeAddress = async (direccion) => {
-        const addressToGeocode = '${direccion}.json'; // Replace with your address
-        const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw'; // Replace with your Mapbox API key
+        const addressToGeocode = `${direccion}.json`; // Corregido: Use de comillas invertidas (`) en lugar de comillas simples (')
+        const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw';
         const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
         const endpoint = `${addressToGeocode}.json`;
         const params = {
@@ -31,7 +25,7 @@ function MapboxMap() {
 
             if (features.length > 0) {
                 const [longitude, latitude] = features[0].geometry.coordinates;
-                return {latitude, longitude};
+                return { lng: longitude, lat: latitude };
             } else {
                 console.error('No se han encontrado resultados para la dirección proporcionada');
                 return null;
@@ -42,16 +36,6 @@ function MapboxMap() {
         }
     };
 
-    const geocodeTiendas = async ()=> {
-        const tiendasConCoordenadas = await Promise.all(tiendas.map(async(tienda) => {
-            const coordenadas = await geocodeAddress(tienda.direccion);
-            return{...tienda, coordenadas}
-        }));
-
-        setTiendasConCoordenadas(tiendasConCoordenadas.filter(tienda => tienda.coordenadas !==null));
-        console.log('Tiendas con coordenadas', tiendasConCoordenadas);
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -60,24 +44,27 @@ function MapboxMap() {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-        }; 
+        };
         fetchData();
     }, []);
 
-   
-
-    useEffect(()=> {
-        
-
-        
-
+    useEffect(() => {
         if (tiendas.length > 0) {
+            const geocodeTiendas = async () => {
+                const tiendasConCoordenadas = await Promise.all(tiendas.map(async (tienda) => {
+                    const coordenadas = await geocodeAddress(tienda.direccion);
+                    return { ...tienda, coordenadas };
+                }));
+
+                setTiendasConCoordenadas(tiendasConCoordenadas.filter(tienda => tienda.coordenadas !== null));
+                console.log('Tiendas con coordenadas', tiendasConCoordenadas);
+            };
+
             geocodeTiendas();
         }
-    },[tiendas]);
+    }, [tiendas]);
 
     useEffect(() => {
-        // Crear el mapa solo si hay datos de tiendas disponibles
         if (tiendasConCoordenadas.length > 0) {
             mapboxgl.accessToken = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw';
             const map = new mapboxgl.Map({
@@ -89,7 +76,7 @@ function MapboxMap() {
 
             const geojson = {
                 'type': 'FeatureCollection',
-                'features': tiendas.map((tienda, index) => ({
+                'features': tiendasConCoordenadas.map((tienda, index) => ({
                     'type': 'Feature',
                     'properties': {
                         'title': `<strong>${tienda.nombre}</strong>`,
@@ -97,12 +84,11 @@ function MapboxMap() {
                     },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': coordenadas[index]
+                        'coordinates': tienda.coordenadas // Corregido: Asigna directamente las coordenadas aquí
                     }
                 }))
             };
 
-            // Agregar marcadores al mapa
             for (const feature of geojson.features) {
                 const el = document.createElement('div');
                 el.className = 'marker';
@@ -118,10 +104,9 @@ function MapboxMap() {
                     .addTo(map);
             }
 
-            // Limpia el mapa cuando el componente se desmonta
             return () => map.remove();
         }
-    }, [tiendas]);
+    }, [tiendasConCoordenadas]);
 
     const toggleMenu = () => {
         setMenuAbierto(!menuAbierto);
@@ -148,15 +133,11 @@ function MapboxMap() {
 
     return (
         <div>
- 
-
-           
-            {/* Contenedor del mapa */}
             <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
                 {renderMenu()}
                 <div id="map"></div>
                 <button onClick={toggleMenu} className="menu-button">
-                    <img src='/menu.png' alt='Menú' className="menu-icon" /> 
+                    <img src='/menu.png' alt='Menú' className="menu-icon" />
                 </button>
             </div>
         </div>
