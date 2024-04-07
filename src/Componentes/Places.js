@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link, useParams } from 'react-router-dom';
 import apiServiceInstance from '../services/ApiService';
+import AñadeNegocio  from './AñadeNegocio';
 
 function Places() {
     const [tiendas, setTiendas] = useState([]);
     const [servicios, setServicios] = useState([]);
+    const [tiendaIdData, setTiendaIdData] = useState(null);
+    const [serviciosIdData, setServiciosIdData] = useState(null);
+    const [updateId, setUpdateId] = useState(null); // Nuevo estado para almacenar el id al pulsar el botón "Update"
 
     const { id } = useParams();
 
@@ -19,6 +23,8 @@ function Places() {
             const serviciosData = await apiServiceInstance.getServicios();
             setTiendas(tiendasData);
             setServicios(serviciosData);
+            console.log(tiendasData); //Traza que muestra todas las tiendas que llegan a places
+            console.log(serviciosData); //Traza que muestra todas los servicios que llegan a places
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -31,6 +37,7 @@ function Places() {
                 console.error('Servicio no encontrado');
                 return;
             }
+            
             // Realiza la solicitud DELETE utilizando la función de tu servicio API
             await apiServiceInstance.deleteServicio(id);
             await apiServiceInstance.deleteTienda(servicio.tienda.idTienda);
@@ -41,13 +48,32 @@ function Places() {
             console.error('Error deleting tienda:', error);
         }
     };
+    //Este método obtiene los datos asociados a una tienda y sus servicios
+    const handleServicioById = async (id) => {
+        try {
+            const servicio = servicios.find(servicio => servicio.idServicio === id);
+            if (!servicio) {
+                console.error('Servicio no encontrado');
+                return;
+            }
+            const ServiciosIdData = await apiServiceInstance.getServicioById(id);
+            const TiendaIdData = await apiServiceInstance.getTiendaById(servicio.tienda.idTienda);
+            setTiendaIdData(TiendaIdData);
+            setServiciosIdData(ServiciosIdData);
+            setUpdateId(id); // Almacena el id cuando se pulsa el botón "Update"
+            console.log(TiendaIdData) 
+            console.log(ServiciosIdData)
+        } catch (error) {
+            console.error('Error enviando tienda:', error);
+        }
+    };
 
     return (
         <div>
             <h2 className='text-center'>Places</h2>
             <div className="text-center" style={{ margin: '20px 0' }}>
                 <Link to="/CrearNegocio">
-                    <Button variant="success" style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000' }}>Añadir Negocio</Button>
+                    <Button variant="success" style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000' }}>CrearNegocio</Button>
                 </Link>
             </div>
             <table className='table table-bordered table-striped'>
@@ -73,14 +99,13 @@ function Places() {
                             </td>
                             <td>
                                 <>
-                                <Link to={`/AñadeNegocio/${servicio.tienda.idTienda}`} style={{ marginRight: '10px' }}>                                        <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }}>Update</Button>
-                                    </Link>
+                                    {/* Aquí se establece el estado updateId cuando se pulsa el botón "Update" */}
+                                    <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }}onClick={() => handleServicioById(servicio.idServicio)}>Update</Button>
                                     <Button variant="danger" style={{ backgroundColor: '#E74C3C', textShadow: '1px 1px 2px #000000' }} onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>
+                                    <Link to="/reseña" style={{ marginLeft: '10px' }}>
+                                        <Button variant="outline-secondary">Reseñas</Button>
+                                    </Link>
                                 </>
-
-                                <Link to="/reseña" style={{ marginLeft: '10px' }}>
-                                    <Button variant="outline-secondary">Reseñas</Button>
-                                </Link>
                             </td>
                         </tr>
                     ))}
@@ -91,8 +116,12 @@ function Places() {
                 una petición a la API y que saque todos los locales y a continuación implementar
                 esa vista aquí junto con los botones Update y Delete
             </span>
+            
+            {/* Renderiza el componente AñadeNegocio solo cuando updateId no es null */}
+            {updateId !== null && (
+                <AñadeNegocio id={updateId} />
+            )}
         </div>
-        
     );
 }
 

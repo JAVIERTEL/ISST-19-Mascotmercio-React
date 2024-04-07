@@ -102,8 +102,20 @@ class ApiService{
             console.log(error)
         }
     }
-
-
+    //Petición a la base de datos de una tienda
+    getTiendaById = async (idTienda) => {
+        try {
+            const response = await axios.get(USER_API_BASE_URL_TIENDAS + '/' + idTienda);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching tiendas:', error);
+            throw error; // Re-throw the error to handle it in the calling code
+        }
+    }
+    //No funciona, pero tiene que hacer una petición a la base de datos de un put
+    
+            
+    
     // Servicios
     getServicios = async () => {
         try {
@@ -123,6 +135,17 @@ class ApiService{
         }
     }
 
+    //Petición a la base de datos de un servicio
+    getServicioById = async (idServicio) => {
+        try {
+            const response = await axios.get(USER_API_BASE_URL_SERVICIOS + '/' + idServicio);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching tiendas:', error);
+            throw error; // Re-throw the error to handle it in the calling code
+        }
+    }
+ 
     // Post tienda (crear tienda)
     enviarDatosTienda = async (idTienda, nombreTienda, direccion, nombrePropietario) => {
         try {
@@ -140,6 +163,7 @@ class ApiService{
             throw error; // Lanza el error para manejarlo en el componente
         }
     };
+
 
      // Post servicio (crear servicio)
     enviarDatosServicios = async (servicioID, admite_mascota,comida,ocio, peluqueria, accesorios, tiendaID) => {
@@ -161,7 +185,44 @@ class ApiService{
             throw error; // Lanza el error para manejarlo en el componente
         }
     };
-}
+
+    //No funciona, pero tiene que hacer una petición a la base de datos de un put
+    recibirDatosTienda = async (idTienda, nombreTienda, direccion, nombrePropietario) => {
+        try {
+            const response = await axios.put(`${USER_API_BASE_URL_TIENDAS}/${idTienda}`, {
+                "nombre": nombreTienda,
+                "direccion": direccion,
+                "propietario": {
+                    "nombre": nombrePropietario
+                }
+            });
+            return response.data; // Retorna los datos de respuesta si es necesario
+        } catch (error) {
+            throw error; // Lanza el error para manejarlo en el componente
+        }
+    };
+
+    //No funciona, pero tiene que hacer una petición a la base de datos de un put
+
+    recibirDatosServicios = async (servicioID, admite_mascota, comida, ocio, peluqueria, accesorios, tiendaID) => {
+        try {
+            const response = await axios.put(`${USER_API_BASE_URL_SERVICIOS}/${servicioID}`, {
+                "admite_mascota": admite_mascota,
+                "comida": comida,
+                "ocio": ocio,
+                "peluqueria": peluqueria,
+                "accesorios": accesorios,
+                "tienda": {
+                    "idTienda": tiendaID
+                }
+            });
+        return response.data; // Retorna los datos de respuesta si es necesario
+    } catch (error) {
+        throw error; // Lanza el error para manejarlo en el componente
+    }
+};
+
+};
 
 const apiServiceInstance = new ApiService();
 export default apiServiceInstance;

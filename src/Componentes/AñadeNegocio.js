@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import apiServiceInstance from '../services/ApiService';
 
-function AñadeNegocio() {
+function AñadeNegocio({ id }) {
     const [nombreTienda, setNombreTienda] = useState('');
     const [direccion, setDireccion] = useState('');
     const [nombrePropietario, setNombrePropietario] = useState('');
@@ -13,124 +13,95 @@ function AñadeNegocio() {
     const [ocio, setOcio] = useState(false);
     const [peluqueria, setPeluqueria] = useState(false);
     const [accesorios, setAccesorios] = useState(false);
-    const { id } = useParams();
-
+    
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(id);
+    }, [id]);
 
-    const fetchData = async () => {
+    const fetchData = async (id) => {
         try {
-            // Obtener datos del negocio con el ID proporcionado
-            const negocioData = await apiServiceInstance.getNegocio(id);
-            // Llenar el estado con los datos del negocio
-            setNombreTienda(negocioData.nombreTienda);
-            setDireccion(negocioData.direccion);
-            setNombrePropietario(negocioData.nombrePropietario);
-            setAdmite_mascota(negocioData.admite_mascota);
-            setComida(negocioData.comida);
-            setOcio(negocioData.ocio);
-            setPeluqueria(negocioData.peluqueria);
-            setAccesorios(negocioData.accesorios);
+            const servicio = await apiServiceInstance.getServicioById(id);
+            const tienda = await apiServiceInstance.getTiendaById(servicio.tienda.idTienda);
+
+            // Establecer los valores de los campos del formulario con los datos obtenidos
+            setNombreTienda(tienda.nombre);
+            setDireccion(tienda.direccion);
+            setNombrePropietario(tienda.propietario.usuario);
+            setAdmite_mascota(servicio.admite_mascota);
+            setComida(servicio.comida);
+            setOcio(servicio.ocio);
+            setPeluqueria(servicio.peluqueria);
+            setAccesorios(servicio.accesorios);
+
+            console.log(tienda);
+            console.log(servicio);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    const handleCheckboxChange = (event) => {
-        const { name, checked } = event.target;
-        // Setea el valor correspondiente a true
-        switch(name) {
-            case "admite_mascota":
-                setAdmite_mascota(checked);
-                break;
-            case "comida":
-                setComida(checked);
-                break;
-            case "ocio":
-                setOcio(checked);
-                break;
-            case "peluqueria":
-                setPeluqueria(checked);
-                break;
-            case "accesorios":
-                setAccesorios(checked);
-                break;
-            default:
-                break;
-        }
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    //No funciona, está función debe acceder a la base de datos mediante un put  cuando se da al botón de guardar
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
         try {
-            // Realizar la actualización del negocio utilizando el ID proporcionado
-            await apiServiceInstance.updateNegocio(id, nombreTienda, direccion, nombrePropietario, admite_mascota, comida, ocio, peluqueria, accesorios);
-            console.log('Negocio actualizado exitosamente');
+            // Envía los datos del formulario al servidor para guardarlos
+            await apiServiceInstance.recibirDatosTienda(id, nombreTienda, direccion, nombrePropietario);
+            await apiServiceInstance.recibirDatosServicios(id, admite_mascota, comida, ocio, peluqueria, accesorios, id);
+            console.log('Datos guardados exitosamente');
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error al guardar los datos:', error);
         }
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: '50%', marginRight: 40, marginTop: 40 }}>
-                <h2>Rellena el formulario con los datos de tu negocio</h2>
-                <div>
-                    <label>Nombre de la Tienda:</label>
-                    <input type="text" value={nombreTienda} onChange={(e) => setNombreTienda(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+            <form onSubmit={handleSubmit} style={{ width: '50%', marginRight: 40 }}>
+                <h2 className='text-center'>Edita tu negocio</h2>
+                <div className="form-group">
+                    <label htmlFor="nombreTienda">Nombre de la Tienda:</label>
+                    <input type="text" className="form-control" id="nombreTienda" value={nombreTienda} onChange={(e) => setNombreTienda(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
                 </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label>Dirección:</label>
-                    <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
+                <div className="form-group">
+                    <label htmlFor="direccion">Dirección:</label>
+                    <input type="text" className="form-control" id="direccion" value={direccion} onChange={(e) => setDireccion(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required/>
                 </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label>Nombre del Propietario:</label>
-                    <input type="text" value={nombrePropietario} onChange={(e) => setNombrePropietario(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} />
+                <div className="form-group">
+                    <label htmlFor="nombrePropietario">Nombre del Propietario:</label>
+                    <input type="text" className="form-control" id="nombrePropietario" value={nombrePropietario} onChange={(e) => setNombrePropietario(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                    <Button style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000', padding: '3px 35px', fontSize: '20px' }} onClick={handleSubmit}>Actualizar</Button>
-                    <Link to="/places">
-                        <Button variant="danger" style={{ marginLeft: '20px', fontWeight: 'bold', textShadow: '1px 1px 2px #000000', padding: '3px 35px', fontSize: '20px' }}>Cancelar</Button>
-                    </Link>
+                    <Button style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000', padding: '3px 35px', fontSize: '20px', marginBottom: 20 }} onClick={handleSubmit}>Guardar</Button>
                 </div>
-            </div>
+            </form>
             <div style={{ width: '50%', paddingLeft: '20px', marginTop: 40 }}>
                 <h2>Servicios que ofreces</h2>
                 <div style={{ marginTop: '15px' }}>
-                    <label style={{ marginBottom: '10px' }}>
-                        <input type="checkbox" name="admite_mascota" checked={admite_mascota} onChange={handleCheckboxChange} style={{ transform: 'scale(1.2)', marginRight: 10 }} />
-                        Admite Mascota
-                    </label>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input" id="admiteMascota" checked={admite_mascota} onChange={(e) => setAdmite_mascota(e.target.checked)} />
+                        <label className="form-check-label" htmlFor="admiteMascota">Admite Mascotas</label>
+                    </div>
                 </div>
-                <div>
-                    <label style={{ marginBottom: '10px' }}>
-                        <input type="checkbox" name="comida" checked={comida} onChange={handleCheckboxChange} style={{ transform: 'scale(1.2)', marginRight: 10 }} />
-                        Comida
-                    </label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="comida" checked={comida} onChange={(e) => setComida(e.target.checked)} />
+                    <label className="form-check-label" htmlFor="comida">Servicio de Comida</label>
                 </div>
-                <div>
-                    <label style={{ marginBottom: '10px' }}>
-                        <input type="checkbox" name="ocio" checked={ocio} onChange={handleCheckboxChange} style={{ transform: 'scale(1.2)', marginRight: 10 }} />
-                        Ocio
-                    </label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="ocio" checked={ocio} onChange={(e) => setOcio(e.target.checked)} />
+                    <label className="form-check-label" htmlFor="ocio">Servicio de Ocio</label>
                 </div>
-                <div>
-                    <label style={{ marginBottom: '10px' }}>
-                        <input type="checkbox" name="peluqueria" checked={peluqueria} onChange={handleCheckboxChange} style={{ transform: 'scale(1.2)', marginRight: 10 }} />
-                        Peluquería
-                    </label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="peluqueria" checked={peluqueria} onChange={(e) => setPeluqueria(e.target.checked)} />
+                    <label className="form-check-label" htmlFor="peluqueria">Servicio de Peluquería</label>
                 </div>
-                <div>
-                    <label style={{ marginBottom: '10px' }}>
-                        <input type="checkbox" name="accesorios" checked={accesorios} onChange={handleCheckboxChange} style={{ transform: 'scale(1.2)', marginRight: 10 }} />
-                        Accesorios
-                    </label>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" id="accesorios" checked={accesorios} onChange={(e) => setAccesorios(e.target.checked)} />
+                    <label className="form-check-label" htmlFor="accesorios">Venta de Accesorios</label>
                 </div>
             </div>
         </div>
     );
+    
 }
 
 export default AñadeNegocio;
-
