@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import apiServiceInstance from '../services/ApiService';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Axios from 'axios';
+import './../map.css'
 
 function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
@@ -14,9 +15,8 @@ function MapboxMap() {
         [-3.727238, 40.444001]
     ];
 
-    
     const geocodeAddress = async (direccion) => {
-        const addressToGeocode = '${direccion}.json'; // Replace with your address
+        const addressToGeocode = `${direccion}.json`; // Replace with your address
         const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw'; // Replace with your Mapbox API key
         const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
         const endpoint = `${addressToGeocode}.json`;
@@ -64,20 +64,13 @@ function MapboxMap() {
         fetchData();
     }, []);
 
-   
-
     useEffect(()=> {
-        
-
-        
-
         if (tiendas.length > 0) {
             geocodeTiendas();
         }
     },[tiendas]);
 
     useEffect(() => {
-        // Crear el mapa solo si hay datos de tiendas disponibles
         if (tiendasConCoordenadas.length > 0) {
             mapboxgl.accessToken = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw';
             const map = new mapboxgl.Map({
@@ -89,7 +82,7 @@ function MapboxMap() {
 
             const geojson = {
                 'type': 'FeatureCollection',
-                'features': tiendas.map((tienda, index) => ({
+                'features': tiendasConCoordenadas.map((tienda, index) => ({
                     'type': 'Feature',
                     'properties': {
                         'title': `<strong>${tienda.nombre}</strong>`,
@@ -102,7 +95,6 @@ function MapboxMap() {
                 }))
             };
 
-            // Agregar marcadores al mapa
             for (const feature of geojson.features) {
                 const el = document.createElement('div');
                 el.className = 'marker';
@@ -118,7 +110,6 @@ function MapboxMap() {
                     .addTo(map);
             }
 
-            // Limpia el mapa cuando el componente se desmonta
             return () => map.remove();
         }
     }, [tiendas]);
@@ -148,10 +139,6 @@ function MapboxMap() {
 
     return (
         <div>
- 
-
-           
-            {/* Contenedor del mapa */}
             <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
                 {renderMenu()}
                 <div id="map"></div>
