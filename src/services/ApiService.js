@@ -102,8 +102,20 @@ class ApiService{
             console.log(error)
         }
     }
-
-
+    //Petición a la base de datos de una tienda
+    getTiendaById = async (idTienda) => {
+        try {
+            const response = await axios.get(USER_API_BASE_URL_TIENDAS + '/' + idTienda);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching tiendas:', error);
+            throw error; // Re-throw the error to handle it in the calling code
+        }
+    }
+    //No funciona, pero tiene que hacer una petición a la base de datos de un put
+    
+            
+    
     // Servicios
     getServicios = async () => {
         try {
@@ -123,6 +135,17 @@ class ApiService{
         }
     }
 
+    //Petición a la base de datos de un servicio
+    getServicioById = async (idServicio) => {
+        try {
+            const response = await axios.get(USER_API_BASE_URL_SERVICIOS + '/' + idServicio);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching tiendas:', error);
+            throw error; // Re-throw the error to handle it in the calling code
+        }
+    }
+ 
     // Post tienda (crear tienda)
     enviarDatosTienda = async (idTienda, nombreTienda, direccion, nombrePropietario) => {
         try {
@@ -134,12 +157,13 @@ class ApiService{
                 "propietario": {
                     "usuario": "juan"
                 }
-            }); 
+            });
             return response.data; // Retorna los datos de respuesta si es necesario
         } catch (error) {
             throw error; // Lanza el error para manejarlo en el componente
         }
     };
+
 
      // Post servicio (crear servicio)
     enviarDatosServicios = async (servicioID, admite_mascota,comida,ocio, peluqueria, accesorios, tiendaID) => {
@@ -161,7 +185,44 @@ class ApiService{
             throw error; // Lanza el error para manejarlo en el componente
         }
     };
-}
+
+    
+ // Método para actualizar un servicio
+ actualizarTienda = async (idTienda, tiendaActualizada) => {
+    try {
+        // URL de la API para actualizar el servicio
+        const url = `${USER_API_BASE_URL_TIENDAS}/${idTienda}`;
+
+        // Realizar la solicitud PUT con Axios
+        const response = await axios.put(url, tiendaActualizada);
+
+        // Devolver los datos de respuesta si es necesario
+        return response.data;
+    } catch (error) {
+        // Manejar errores
+        throw error; // Lanza el error para manejarlo en el componente
+    }
+};
+
+
+    // Método para actualizar un servicio
+actualizarServicio = async (idServicio, servicioActualizado) => {
+    try {
+        // URL de la API para actualizar el servicio
+        const url = `${USER_API_BASE_URL_SERVICIOS}/${idServicio}`;
+
+        // Realizar la solicitud PUT con Axios
+        const response = await axios.put(url, servicioActualizado);
+
+        // Devolver los datos de respuesta si es necesario
+        return response.data;
+    } catch (error) {
+        // Manejar errores
+        throw error; // Lanza el error para manejarlo en el componente
+    }
+};
+
+};
 
 const apiServiceInstance = new ApiService();
 export default apiServiceInstance;
