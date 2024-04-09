@@ -157,7 +157,7 @@ class ApiService{
                 "propietario": {
                     "usuario": "juan"
                 }
-            }); 
+            });
             return response.data; // Retorna los datos de respuesta si es necesario
         } catch (error) {
             throw error; // Lanza el error para manejarlo en el componente
@@ -186,38 +186,38 @@ class ApiService{
         }
     };
 
-    //No funciona, pero tiene que hacer una petición a la base de datos de un put
-    recibirDatosTienda = async (idTienda, nombreTienda, direccion, nombrePropietario) => {
-        try {
-            const response = await axios.put(`${USER_API_BASE_URL_TIENDAS}/${idTienda}`, {
-                "nombre": nombreTienda,
-                "direccion": direccion,
-                "propietario": {
-                    "nombre": nombrePropietario
-                }
-            });
-            return response.data; // Retorna los datos de respuesta si es necesario
-        } catch (error) {
-            throw error; // Lanza el error para manejarlo en el componente
-        }
-    };
+    
+ // Método para actualizar un servicio
+ actualizarTienda = async (idTienda, tiendaActualizada) => {
+    try {
+        // URL de la API para actualizar el servicio
+        const url = `${USER_API_BASE_URL_TIENDAS}/${idTienda}`;
 
-    //No funciona, pero tiene que hacer una petición a la base de datos de un put
+        // Realizar la solicitud PUT con Axios
+        const response = await axios.put(url, tiendaActualizada);
 
-    recibirDatosServicios = async (servicioID, admite_mascota, comida, ocio, peluqueria, accesorios, tiendaID) => {
-        try {
-            const response = await axios.put(`${USER_API_BASE_URL_SERVICIOS}/${servicioID}`, {
-                "admite_mascota": admite_mascota,
-                "comida": comida,
-                "ocio": ocio,
-                "peluqueria": peluqueria,
-                "accesorios": accesorios,
-                "tienda": {
-                    "idTienda": tiendaID
-                }
-            });
-        return response.data; // Retorna los datos de respuesta si es necesario
+        // Devolver los datos de respuesta si es necesario
+        return response.data;
     } catch (error) {
+        // Manejar errores
+        throw error; // Lanza el error para manejarlo en el componente
+    }
+};
+
+
+    // Método para actualizar un servicio
+actualizarServicio = async (idServicio, servicioActualizado) => {
+    try {
+        // URL de la API para actualizar el servicio
+        const url = `${USER_API_BASE_URL_SERVICIOS}/${idServicio}`;
+
+        // Realizar la solicitud PUT con Axios
+        const response = await axios.put(url, servicioActualizado);
+
+        // Devolver los datos de respuesta si es necesario
+        return response.data;
+    } catch (error) {
+        // Manejar errores
         throw error; // Lanza el error para manejarlo en el componente
     }
 };

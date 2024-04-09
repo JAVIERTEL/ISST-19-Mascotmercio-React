@@ -8,12 +8,14 @@ function AñadeNegocio({ id }) {
     const [nombreTienda, setNombreTienda] = useState('');
     const [direccion, setDireccion] = useState('');
     const [nombrePropietario, setNombrePropietario] = useState('');
+
     const [admite_mascota, setAdmite_mascota] = useState(false);
     const [comida, setComida] = useState(false);
     const [ocio, setOcio] = useState(false);
     const [peluqueria, setPeluqueria] = useState(false);
     const [accesorios, setAccesorios] = useState(false);
-    
+    const [idTienda, setIdTienda] = useState(null); // Estado para almacenar el ID de la tienda
+    const [idServicio,setIdServicio] =useState(null);
     useEffect(() => {
         fetchData(id);
     }, [id]);
@@ -32,7 +34,8 @@ function AñadeNegocio({ id }) {
             setOcio(servicio.ocio);
             setPeluqueria(servicio.peluqueria);
             setAccesorios(servicio.accesorios);
-
+            setIdTienda(tienda.idTienda); // Almacena el ID de la tienda en el estado
+            setIdServicio(servicio.idServicio);
             console.log(tienda);
             console.log(servicio);
         } catch (error) {
@@ -40,19 +43,43 @@ function AñadeNegocio({ id }) {
         }
     };
 
-    //No funciona, está función debe acceder a la base de datos mediante un put  cuando se da al botón de guardar
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        try {
-            // Envía los datos del formulario al servidor para guardarlos
-            await apiServiceInstance.recibirDatosTienda(id, nombreTienda, direccion, nombrePropietario);
-            await apiServiceInstance.recibirDatosServicios(id, admite_mascota, comida, ocio, peluqueria, accesorios, id);
-            console.log('Datos guardados exitosamente');
-        } catch (error) {
-            console.error('Error al guardar los datos:', error);
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Crear el objeto de tienda y servicio con los datos actualizados
+    const tiendaActualizada = {
+        idTienda :idTienda,
+        nombre: nombreTienda,
+        direccion: direccion,
+        propietario: {
+            usuario: nombrePropietario
         }
     };
+
+    const servicioActualizado = {
+        idServicio: idServicio,
+        admite_mascota: admite_mascota,
+        comida: comida,
+        ocio: ocio,
+        peluqueria: peluqueria,
+        accesorios: accesorios,
+        tienda: {
+            idTienda: idTienda
+        }
+    };
+
+    try {
+        // Envía los datos actualizados del formulario al servidor para guardarlos
+
+        await apiServiceInstance.actualizarTienda(idTienda, tiendaActualizada);
+        await apiServiceInstance.actualizarServicio(id, servicioActualizado);
+        console.log('Datos guardados exitosamente');
+        window.location.reload();
+
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+};
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
