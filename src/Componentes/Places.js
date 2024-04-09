@@ -114,11 +114,7 @@ function Places() {
                     ))}
                 </tbody>
             </table>
-            <span>
-                Lo que habrá que hacer aquí es crear un fichero en servicios que haga
-                una petición a la API y que saque todos los locales y a continuación implementar
-                esa vista aquí junto con los botones Update y Delete
-            </span>
+          
             
             {/* Renderiza el componente AñadeNegocio solo cuando updateId no es null */}
             {updateId !== null && (
