@@ -94,12 +94,20 @@ function Places() {
                             <td>{servicio.tienda.nombre}</td>
                             <td>{servicio.tienda.direccion}</td>
                             <td>
-                                <ul>
-                                    {Object.entries(servicio || {}).map(([clave, valor]) => (
-                                        typeof valor === 'boolean' && valor && <li key={clave}>{clave}</li>
-                                    ))}
-                                </ul>
+                                    <ul>
+                                        {Object.entries(servicio || {}).map(([clave, valor]) => (
+                                            <React.Fragment key={clave}>
+                                                {/* Modifica el texto para cada opción */}
+                                                {clave === 'admite_mascota' && valor && <li>Admite Mascota</li>}
+                                                {clave === 'comida' && valor && <li>Servicio de Comida</li>}
+                                                {clave === 'ocio' && valor && <li>Servicio de Ocio</li>}
+                                                {clave === 'peluqueria' && valor && <li>Servicio de Peluquería</li>}
+                                                {clave === 'accesorios' && valor && <li>Venta de Accesorios</li>}
+                                            </React.Fragment>
+                                        ))}
+                                    </ul>
                             </td>
+
                             <td>
                                 <>
                                     {/* Aquí se establece el estado updateId cuando se pulsa el botón "Update" */}
