@@ -8,6 +8,7 @@ function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
     const [menuAbierto, setMenuAbierto] = useState(false);
     const [tiendasConCoordenadas, setTiendasConCoordenadas] = useState([]);
+    const [servicios, setServicios] = useState([]);
 
     const geocodeAddress = async (direccion) => {
         const addressToGeocode = `${direccion}.json`; // Corregido: Use de comillas invertidas (`) en lugar de comillas simples (')
@@ -40,6 +41,8 @@ function MapboxMap() {
         const fetchData = async () => {
             try {
                 const tiendasData = await apiServiceInstance.getTiendas();
+                const serviciosData = await apiServiceInstance.getServicios();
+                setServicios(serviciosData);
                 setTiendas(tiendasData);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -51,9 +54,9 @@ function MapboxMap() {
     useEffect(() => {
         if (tiendas.length > 0) {
             const geocodeTiendas = async () => {
-                const tiendasConCoordenadas = await Promise.all(tiendas.map(async (tienda) => {
-                    const coordenadas = await geocodeAddress(tienda.direccion);
-                    return { ...tienda, coordenadas };
+                const tiendasConCoordenadas = await Promise.all(servicios.map(async (servicio) => {
+                    const coordenadas = await geocodeAddress(servicio.tienda.direccion);
+                    return { ...servicio, coordenadas };
                 }));
 
                 setTiendasConCoordenadas(tiendasConCoordenadas.filter(tienda => tienda.coordenadas !== null));
@@ -71,20 +74,26 @@ function MapboxMap() {
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v12',
                 center: [-3.727238, 40.444001],
-                zoom: 13
+                zoom: 9
             });
 
             const geojson = {
                 'type': 'FeatureCollection',
-                'features': tiendasConCoordenadas.map((tienda, index) => ({
+                'features': tiendasConCoordenadas.map((servicio, index) => ({
                     'type': 'Feature',
                     'properties': {
-                        'title': `<strong>${tienda.nombre}</strong>`,
-                        'description': `<p>${tienda.direccion}</p>`
-                    },
+            'title': `<strong>${servicio.tienda.nombre}</strong>`,
+            'description': `<p>${servicio.tienda.direccion}</p>`+
+                            '<p><strong>Servicios:</strong></p>' +
+                            '<ul>' +
+                            `${Object.entries(servicio).map(([clave, valor]) => (
+                                typeof valor === 'boolean' && valor ? `<li>${clave}</li>` : ''
+                            )).join('')}` +
+                            '</ul>'
+        },
                     'geometry': {
                         'type': 'Point',
-                        'coordinates': tienda.coordenadas // Corregido: Asigna directamente las coordenadas aquí
+                        'coordinates': servicio.coordenadas // Corregido: Asigna directamente las coordenadas aquí
                     }
                 }))
             };
@@ -118,10 +127,16 @@ function MapboxMap() {
                 <div className="menu">
                     <h2>Tiendas cercanas</h2>
                     <ul>
-                        {tiendas.map(tienda => (
-                            <li key={tienda.id}>
-                                <strong>{tienda.nombre}</strong>
-                                <p>{tienda.direccion}</p>
+                        {servicios.map(servicio => (
+                            <li key={servicio.tienda.idTienda}>
+                                <strong>{servicio.tienda.nombre}</strong>
+                                <p>{servicio.tienda.direccion}</p>
+                                <ul className='servicios-list'>
+            {Object.entries(servicio).map(([clave, valor]) => (
+                (clave !== 'nombre' && clave !== 'direccion' && typeof valor === 'boolean' && valor) && 
+                <li key={clave} >{clave}</li>
+            ))}
+        </ul>
                             </li>
                         ))}
                     </ul>

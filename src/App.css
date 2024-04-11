@@ -91,7 +91,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
   left: 0;
-  top: 20px;
   width:200px;
   transition: width 0.3s ease;
 }
@@ -155,7 +154,7 @@
 }
 
 .menu-abierto .menu-button{
-  left: 220px;
+  left: 420px;
 }
 
 
@@ -169,7 +168,7 @@
 .menu-abierto .menu {
   display: inline-block;
   position: relative;
-  width: 200px; /* Ancho del menú */
+  width: 500px; /* Ancho del menú */
   transition: width 0.3s ease; /* Añadir una transición para suavizar el efecto */
 }
 
@@ -179,6 +178,20 @@
 
 .menu-abierto #map{
   display: inline-block;
+
+
+}
+
+.servicios-item {
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.servicios-list {
+padding: 0;
+list-style: none;
 
 
 }
