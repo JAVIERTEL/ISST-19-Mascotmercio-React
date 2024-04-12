@@ -85,7 +85,7 @@
 }
 
 .menu {
-  background-color: #ffffff;
+  background-color: #d2f2fb;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -93,11 +93,12 @@
   left: 0;
   width:200px;
   transition: width 0.3s ease;
+  overflow-y: auto;
 }
 
 .menu li {
   margin-bottom: 5px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -183,8 +184,7 @@
 }
 
 .servicios-item {
-  border-radius: 5px;
-  padding: 10px;
+  
   cursor: pointer;
   list-style: none;
 }
@@ -194,5 +194,36 @@ padding: 0;
 list-style: none;
 
 
+}
+
+.servicios-list li{
+  border: none;
+}
+
+.filtro {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  
+}
+
+.filtro h3 {
+  margin-bottom: 10px;
+}
+
+.filtro ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Hace que los elementos se alineen horizontalmente */
+}
+
+.filtro li {
+  margin-right: 10px;
+}
+
+.filtro label {
+  cursor: pointer;
+  margin-right: 5px;
 }
 

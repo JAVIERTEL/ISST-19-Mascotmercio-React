@@ -22,3 +22,30 @@ code {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
 }
+
+.filtro {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+  top: 20px;
+}
+
+.filtro h3 {
+  margin-bottom: 10px;
+}
+
+.filtro ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Hace que los elementos se alineen horizontalmente */
+}
+
+.filtro li {
+  margin-right: 10px;
+}
+
+.filtro label {
+  cursor: pointer;
+  margin-right: 5px;
+}
