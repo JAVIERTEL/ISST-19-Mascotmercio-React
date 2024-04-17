@@ -10,6 +10,7 @@ function MapboxMap() {
     const [tiendasConCoordenadas, setTiendasConCoordenadas] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
+    const [map,setMap] = useState(null)
 
 
     const geocodeAddress = async (direccion) => {
@@ -66,6 +67,13 @@ function MapboxMap() {
         }
     };
 
+
+    const handleMenuItemClick = (coordenadas) => {
+        if (coordenadas) {
+            map.flyTo({ center: coordenadas, zoom: 15 }); // Cambia el zoom y centra el mapa en las coordenadas especificadas
+        }
+    };
+
     // Func
 
 
@@ -110,7 +118,7 @@ function MapboxMap() {
                 center: [-3.727238, 40.444001],
                 zoom: 10
             });
-
+            setMap(map);
             const tiendasFiltradas = tiendasConCoordenadas.filter(tienda => {
                 return serviciosSeleccionados.every(servicio => tienda[servicio]);
             });
@@ -128,7 +136,14 @@ function MapboxMap() {
                             '<p><strong>Servicios:</strong></p>' +
                             '<ul>' +
                             `${Object.entries(servicio).map(([clave, valor]) => (
-                                typeof valor === 'boolean' && valor ? `<li>${clave}</li>` : ''
+                                typeof valor === 'boolean' && valor ? `
+                                <li key={clave}>
+                                ${clave === 'admite_mascota' ? '<img src="/pata.png" alt="servicio_1" class="icono-servicio" />' : ''}
+                                ${clave === 'comida' ? '<img src="/comida-de-perro.png" alt="servicio_2" class="icono-servicio" />' : ''}
+                                ${clave === 'ocio' ? '<img src="/canino.png" alt="servicio_3" class="icono-servicio" />' : ''}
+                                ${clave === 'peluqueria' ? '<img src="/aseo.png" alt="servicio_4" class="icono-servicio" />' : ''}
+                                ${clave === 'accesorios' ? '<img src="/collar-para-mascotas.png" alt="servicio_5" class="icono-servicio" />' : ''}
+                                ${clave.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</li>` : ''
                             )).join('')}` +
                             '</ul>'
         },
@@ -189,7 +204,7 @@ function MapboxMap() {
   
 
 
-                    <h2>Tiendas cercanas</h2>
+                    <h2 >Tiendas cercanas</h2>
 
 
                     <ul>
@@ -198,7 +213,7 @@ function MapboxMap() {
                             
 
                             
-                            <li key={servicio.tienda.idTienda}>
+                            <li key={servicio.tienda.idTienda} onClick={() => handleMenuItemClick(servicio.coordenadas)}>
                                 
                                 <strong>{servicio.tienda.nombre}</strong>
                                 <p>{servicio.tienda.direccion}</p>
@@ -207,6 +222,12 @@ function MapboxMap() {
                
                                 (clave !== 'nombre' && clave !== 'direccion' && typeof valor === 'boolean' && valor) && 
                                 <li key={clave}>
+                                {clave === 'admite_mascota' && <img src='/pata.png' alt='servicio_1' className='icono-servicio' />}
+                                {clave === 'comida' && <img src='/comida-de-perro.png' alt='servicio_2' className='icono-servicio' />}
+                                {clave === 'ocio' && <img src='/canino.png' alt='servicio_3' className='icono-servicio' />}
+                                {clave === 'peluqueria' && <img src='/aseo.png' alt='servicio_3' className='icono-servicio' />}
+                                {clave === 'accesorios' && <img src='/collar-para-mascotas.png' alt='servicio_3' className='icono-servicio' />}
+
                                  {clave.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} {/* Capitaliza la primera letra de cada palabra */}
                                  </li>
                                 ))}
@@ -236,8 +257,10 @@ function MapboxMap() {
                             value={nombre}
                             checked={serviciosSeleccionados.includes(nombre)}
                             onChange={handleCheckboxChange}
+                            className='checkbox-input'
                             />
-                            <label htmlFor={nombre}>{nombre}</label>
+                            <span className='slider'></span>
+                            <label htmlFor={nombre}>{nombre.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</label>
 
                         </li>
                     ))}

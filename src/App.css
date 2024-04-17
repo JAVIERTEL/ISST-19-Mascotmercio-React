@@ -85,9 +85,8 @@
 }
 
 .menu {
-  background-color: #d2f2fb;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
   left: 0;
@@ -103,7 +102,12 @@
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
-  list-style: none; /* Elimina los puntos negros de la lista */
+  list-style: none;
+  color: rgb(92, 92, 249); /* Elimina los puntos negros de la lista */
+}
+
+.menu li:hover{
+  color:#090a0b;
 }
 
 
@@ -226,4 +230,12 @@ list-style: none;
   cursor: pointer;
   margin-right: 5px;
 }
+
+.icono-servicio {
+  width: 30px; /* Ajusta el ancho del icono según lo desees */
+  height: 30px; /* Ajusta la altura del icono según lo desees */
+  margin-right: 10px; /* Agrega un margen a la derecha para separar el icono del texto */
+}
+
+
 
