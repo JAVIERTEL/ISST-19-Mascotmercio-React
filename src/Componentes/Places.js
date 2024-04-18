@@ -37,10 +37,8 @@ function Places() {
                 console.error('Servicio no encontrado');
                 return;
             }
-            
             // Realiza la solicitud DELETE utilizando la función de tu servicio API
-            await apiServiceInstance.deleteServicio(id);
-            await apiServiceInstance.deleteTienda(servicio.tienda.idTienda);
+            await apiServiceInstance.deleteServicio(id);        
 
             // Actualiza la lista de tiendas después de eliminar una
             await fetchData();
@@ -76,7 +74,7 @@ function Places() {
             <h2 className='text-center'>Places</h2>
             <div className="text-center" style={{ margin: '20px 0' }}>
                 <Link to="/CrearNegocio">
-                    <Button variant="success" style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000' }}>CrearNegocio</Button>
+                    <Button variant="success" style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000' }}>Crear negocio</Button>
                 </Link>
             </div>
             <table className='table table-bordered table-striped'>
