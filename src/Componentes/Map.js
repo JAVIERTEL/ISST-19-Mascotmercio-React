@@ -11,6 +11,7 @@ function MapboxMap() {
     const [servicios, setServicios] = useState([]);
     const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
     const [map,setMap] = useState(null)
+    const [busqueda,setBusqueda]= useState('');
 
 
     const geocodeAddress = async (direccion) => {
@@ -243,14 +244,45 @@ function MapboxMap() {
     };
 
 
+     const handleSearch = async () => {
+        if (busqueda.trim() !== '') {
+            const tiendaBuscada = tiendasConCoordenadas.find(tienda => tienda.tienda.nombre.toLowerCase() === busqueda.toLowerCase());
+            if (tiendaBuscada) {
+                handleMenuItemClick(tiendaBuscada.coordenadas);
+            } else {
+                alert('No se encontró ninguna tienda con ese nombre.');
+            }
+        } else {
+            alert('Ingrese un nombre de tienda para buscar.');
+        }
+    };
+
+    
+
+
 
     return (
         <div>
-              <div className='filtro'>
-                <h3>Selecciona tus opciones:</h3>
+              
+
+
+            <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
+            <div className='filtro'>
+                <div className='busqueda-container'>
+                <input
+                type='text'
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                placeholder='Buscar tienda por nombre'
+                />
+               <button onClick={handleSearch}>
+                <img src="busqueda.png" alt="Buscar" style={{ width: '20px', marginRight: '5px' }} />
+            </button>
+                </div>
+                
                 <ul>
                     {nombresBooleanos.map( nombre => (
-                        <li key={nombre}>
+                        <li key={nombre} className='option-container'>
                             <input
                             type='checkbox'
                             id={nombre}
@@ -260,19 +292,26 @@ function MapboxMap() {
                             className='checkbox-input'
                             />
                             <span className='slider'></span>
-                            <label htmlFor={nombre}>{nombre.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</label>
+                            <label htmlFor={nombre}>
+                                {nombre === 'admite_mascota' && <img src='/pata.png' alt='servicio_1' className='icono-servicio' /> }
+                                {nombre === 'comida' && <img src='/comida-de-perro.png' alt='servicio_2' className='icono-servicio' />}
+                                {nombre === 'ocio' && <img src='/canino.png' alt='servicio_3' className='icono-servicio' />}
+                                {nombre === 'peluqueria' && <img src='/aseo.png' alt='servicio_3' className='icono-servicio' />}
+                                {nombre === 'accesorios' && <img src='/collar-para-mascotas.png' alt='servicio_3' className='icono-servicio' />}
+                                {nombre.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                            
+                            </label>
 
                         </li>
                     ))}
 
                 </ul>
+
+                
                
                  
              
             </div>
-
-
-            <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
                 {renderMenu()}
                 <div id="map"></div>
                 <button onClick={toggleMenu} className="menu-button">
