@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {useParams} from 'react-router-dom/dist';
+import { useNavigate } from 'react-router-dom';
 
 const USER_API_BASE_URL_TIENDAS = "http://localhost:8085/api/tienda";
 const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
 
  
-
 const Cliente_URL = "http://localhost:8085/api/cliente";
 const Propietario_URL = "http://localhost:8085/api/propietario";
 const Resenas_URL = "http://localhost:8085/api/resenas";
@@ -40,6 +40,24 @@ class ApiService{
         }
     }
 
+    // getEmailByCliente = async (usuario) => {
+    //     try {
+    //       const response = await axios.get(Cliente_URL + "/email", {
+    //         params: {
+    //           usuario: usuario
+    //         }
+    //       });
+      
+    //       if (response.status === 200) {
+    //         return response.data.email;
+    //       } else {
+    //         throw new Error('Error al obtener el email del usuario');
+    //       }
+    //     } catch (error) {
+    //       console.error('Error al obtener el email del usuario:', error);
+    //       throw error;
+    //     }
+    //   };
 
 
     //Propietario
@@ -69,6 +87,25 @@ class ApiService{
             throw error;
         }
     }
+    // getEmailByPropietario = async (usuario) => {
+    //     try {
+    //       const response = await axios.get(Cliente_URL + "/email", {
+    //         params: {
+    //           usuario: usuario
+    //         }
+    //       });
+      
+    //       if (response.status === 200) {
+    //         return response.data.email;
+    //       } else {
+    //         throw new Error('Error al obtener el email del usuario');
+    //       }
+    //     } catch (error) {
+    //       console.error('Error al obtener el email del usuario:', error);
+    //       throw error;
+    //     }
+    //   };
+
 
 
     // Reseñas 
@@ -112,7 +149,6 @@ class ApiService{
             throw error; // Re-throw the error to handle it in the calling code
         }
     }
-    //No funciona, pero tiene que hacer una petición a la base de datos de un put
     
             
     
@@ -186,8 +222,61 @@ class ApiService{
         }
     };
 
-    
- // Método para actualizar un servicio
+    //Post cliente
+    enviarDatosCliente= async (usuario,contraseña,email) => {
+        try {
+            console.log(usuario,contraseña,email);
+            const res = await axios.post (Cliente_URL + "/login", {
+                "usuario":usuario,
+                "contraseña":contraseña,
+                "email":email,
+            });
+            console.log(res.data);
+
+             if (res.data.message === "Cliente no existe") 
+             {
+               alert("Cliente no existe");
+             } 
+             else if(res.data.message === "Login Success")
+             { 
+                alert ("Se ha iniciado sesión como cliente");
+             } 
+                // Devuelve la respuesta
+            return res.data;
+        } catch (err) {
+        console.error(err);
+        alert(err);
+        }
+        };
+   //Post propietario
+enviarDatosPropietario = async (usuario, contraseña, email) => {
+    try {
+        console.log(usuario, contraseña, email);
+        const res = await axios.post(Propietario_URL + "/login", {
+            "usuario": usuario,
+            "contraseña": contraseña,
+            "email": email,
+        });
+        console.log(res.data);
+
+        if (res.data.message === "Propietario no existe") {
+            alert("Propietario no existe");
+        } else if (res.data.message === "Login Success") {
+            alert("Se ha iniciado sesión como propietario");
+        }
+
+        // Devuelve la respuesta
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        alert(error);
+    }
+};
+      
+
+
+
+ // Método para actualizar una tienda
  actualizarTienda = async (idTienda, tiendaActualizada) => {
     try {
         // URL de la API para actualizar el servicio

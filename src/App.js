@@ -11,6 +11,8 @@ import AñadeNegocio from './Componentes/AñadeNegocio';
 
 import {BrowserRouter,Route,Routes,Navigate} from "react-router-dom";
 import CrearNegocio from './Componentes/CrearNegocio';
+import Perfil from './Componentes/Perfil'; 
+
 function App() {
   return (
     <div className="App">
@@ -29,6 +31,7 @@ function App() {
         <Route path='/CrearNegocio' element ={<CrearNegocio/>}></Route>
 
         <Route path='/AñadeNegocio/Places' element={<Navigate to='/Places' />} />
+        <Route path="/perfil" element={<Perfil />} />
 
       </Routes>
       </div>
