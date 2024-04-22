@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useState } from 'react';
+import { createRoot } from 'react-dom/client'; // Importar createRoot de react-dom/client
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './services/UserContext'; // Importar UserProvider
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+function Main() {
+  // Crear un estado para el usuario
+  const [user, setUser] = useState(null);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  return (
+    <React.StrictMode>
+      <UserProvider value={{ user, setUser }}> {/* Pasar user y setUser a UserProvider */}
+        <App />
+      </UserProvider>
+    </React.StrictMode>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(<Main />);
+
 reportWebVitals();

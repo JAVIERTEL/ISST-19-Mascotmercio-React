@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useContext,useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import apiServiceInstance from '../services/ApiService';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../services/UserContext'; // Importar UserContext
+
 function Login() {
   const [usuario, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [email, setEmail] = useState('');
+  const { user,setUser } = useContext(UserContext); // Acceder a setUser
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +23,17 @@ function Login() {
       // Realiza una petición al servidor para autenticar al cliente
       const responseCliente = await apiServiceInstance.enviarDatosCliente(usuario, contraseña,email);
       console.log(responseCliente)
+      // if (responseCliente.status === true) { // Asegúrate de comprobar el código de estado correcto
+      //   // Si la autenticación fue exitosa, obtener el email del usuario
+      //   const userEmail = await apiServiceInstance.getEmailByCliente(usuario);
+      //   console.log(userEmail);
+      //  // Actualizar el estado del usuario
+       setUser({ name: usuario, email: email });
+       console.log(setUser)
+       navigate('/Map'); // Navega a la ruta del Mapa para los clientes
+
+      // }
+
     } catch (error) {
       console.error('Error al autenticar cliente:', error);
     
@@ -24,6 +43,16 @@ function Login() {
       // Realiza una petición al servidor para autenticar al propietario
       const responsePropietario = await apiServiceInstance.enviarDatosPropietario(usuario, contraseña,email);
       console.log(responsePropietario)
+     
+      if (responsePropietario.status === true) {
+      // const userEmail = await apiServiceInstance.getEmailByPropietario(usuario);
+      // console.log(userEmail);
+      // Actualizar el estado del usuario
+      setUser({ name: usuario, email: email });
+      console.log(setUser)
+      navigate('/Places'); // Navega a la ruta de Places para los propietarios
+
+       }
     } catch (error) {
       console.error('Error al autenticar propietario:', error);
     }

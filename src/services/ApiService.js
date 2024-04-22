@@ -40,6 +40,24 @@ class ApiService{
         }
     }
 
+    // getEmailByCliente = async (usuario) => {
+    //     try {
+    //       const response = await axios.get(Cliente_URL + "/email", {
+    //         params: {
+    //           usuario: usuario
+    //         }
+    //       });
+      
+    //       if (response.status === 200) {
+    //         return response.data.email;
+    //       } else {
+    //         throw new Error('Error al obtener el email del usuario');
+    //       }
+    //     } catch (error) {
+    //       console.error('Error al obtener el email del usuario:', error);
+    //       throw error;
+    //     }
+    //   };
 
 
     //Propietario
@@ -69,6 +87,25 @@ class ApiService{
             throw error;
         }
     }
+    // getEmailByPropietario = async (usuario) => {
+    //     try {
+    //       const response = await axios.get(Cliente_URL + "/email", {
+    //         params: {
+    //           usuario: usuario
+    //         }
+    //       });
+      
+    //       if (response.status === 200) {
+    //         return response.data.email;
+    //       } else {
+    //         throw new Error('Error al obtener el email del usuario');
+    //       }
+    //     } catch (error) {
+    //       console.error('Error al obtener el email del usuario:', error);
+    //       throw error;
+    //     }
+    //   };
+
 
 
     // Reseñas 
@@ -189,14 +226,13 @@ class ApiService{
     enviarDatosCliente= async (usuario,contraseña,email) => {
         try {
             console.log(usuario,contraseña,email);
-            await axios.post (Cliente_URL + "/login", {
+            const res = await axios.post (Cliente_URL + "/login", {
                 "usuario":usuario,
                 "contraseña":contraseña,
                 "email":email,
-            }) .then((res) => 
-            {
-             console.log(res.data);
-             
+            });
+            console.log(res.data);
+
              if (res.data.message === "Cliente no existe") 
              {
                alert("Cliente no existe");
@@ -205,51 +241,39 @@ class ApiService{
              { 
                 alert ("Se ha iniciado sesión como cliente");
              } 
-          }, fail => {
-           console.error(fail); // Error!
-  });
+                // Devuelve la respuesta
+            return res.data;
+        } catch (err) {
+        console.error(err);
+        alert(err);
+        }
+        };
+   //Post propietario
+enviarDatosPropietario = async (usuario, contraseña, email) => {
+    try {
+        console.log(usuario, contraseña, email);
+        const res = await axios.post(Propietario_URL + "/login", {
+            "usuario": usuario,
+            "contraseña": contraseña,
+            "email": email,
+        });
+        console.log(res.data);
+
+        if (res.data.message === "Propietario no existe") {
+            alert("Propietario no existe");
+        } else if (res.data.message === "Login Success") {
+            alert("Se ha iniciado sesión como propietario");
         }
 
- 
-         catch (err) {
-          alert(err);
-        }
+        // Devuelve la respuesta
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        alert(error);
+    }
+};
       
-      }
 
-    //Post propietario
-    enviarDatosPropietario= async (usuario,contraseña,email) => {
-        try {
-
-            console.log(usuario,contraseña,email)
-            await axios.post (Propietario_URL + "/login", {
-                "usuario":usuario,
-                "contraseña":contraseña,
-                "email":email,
-            }) .then((res) => 
-            {
-             console.log(res.data);
-             
-             if (res.data.message === "Propietario no existe") 
-             {
-               alert("Propietario no existe");
-             } 
-             else if(res.data.message === "Login Success")
-             { 
-                alert ("Se ha iniciado sesión como propietario");
-             } 
-            
-          }, fail => {
-           console.error(fail); // Error!
-  });
-        }
-
- 
-         catch (err) {
-          alert(err);
-        }
-      
-      }
 
 
  // Método para actualizar una tienda
