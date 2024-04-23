@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'; // Importar useContext
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { UserContext } from '../services/UserContext'; // Importar UserContext
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'; // Importar Modal de react-bootstrap
 
 function Cabecera() {
@@ -28,9 +28,9 @@ function Cabecera() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Container>
             <Nav className="navbar-links ms-auto">
-              <Nav.Link href="HomePage"style={{ color: 'white' }}>HomePage</Nav.Link>
-              <Nav.Link href="Places"style={{ color: 'white' }}>Places</Nav.Link>
-              <Nav.Link href="Map"style={{ color: 'white' }}>Map</Nav.Link>
+              <Nav.Link as={Link} to="HomePage"style={{ color: 'white' }}>HomePage</Nav.Link>
+              <Nav.Link as={Link} to="Places"style={{ color: 'white' }}>Places</Nav.Link>
+              <Nav.Link as={Link} to="Map"style={{ color: 'white' }}>Map</Nav.Link>
               {user && (
           <Nav.Link onClick={handleProfileClick} style={{ color: 'white' }}>Perfil</Nav.Link>
         )}
