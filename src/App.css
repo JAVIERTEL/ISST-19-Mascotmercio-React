@@ -85,25 +85,31 @@
 }
 
 .menu {
-  background-color: #ffffff;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
   left: 0;
-  top: 20px;
   width:200px;
   transition: width 0.3s ease;
+  overflow-y: auto;
 }
 
 .menu li {
   margin-bottom: 5px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
-  list-style: none; /* Elimina los puntos negros de la lista */
+  list-style: none;
+  color:#090a0b;
+
+}
+
+.menu li:hover{
+  color: rgb(92, 92, 249); /* Elimina los puntos negros de la lista */
+
 }
 
 
@@ -127,11 +133,10 @@
 
 #map-container {
   position: relative;
-  width: 100%;
-  height: 80vh; 
-  top: 10px; /* Ajusta este valor según sea necesario */
-  bottom: 0; /* Cambia o ajusta esta propiedad para subir o bajar el mapa */
-  left: 0;
+  width: 99vw;
+  height: 85vh; 
+  top: 5px; /* Ajusta este valor según sea necesario */
+  left: -110px;
   right: 0;
   display: flex;/* Ajusta la altura según tus necesidades */
 }
@@ -145,7 +150,7 @@
 
 .menu-button {
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 20px;
   background: transparent;
   border: none;
@@ -155,9 +160,12 @@
 }
 
 .menu-abierto .menu-button{
-  left: 220px;
+  left: 420px;
 }
 
+.menu-abierto .filtro{
+  left: 470px;
+}
 
 
 .menu-icon {
@@ -169,7 +177,7 @@
 .menu-abierto .menu {
   display: inline-block;
   position: relative;
-  width: 200px; /* Ancho del menú */
+  width: 500px; /* Ancho del menú */
   transition: width 0.3s ease; /* Añadir una transición para suavizar el efecto */
 }
 
@@ -182,4 +190,134 @@
 
 
 }
+
+.servicios-item {
+  
+  cursor: pointer;
+  list-style: none;
+}
+
+.servicios-list {
+padding: 0;
+list-style: none;
+
+
+}
+
+.servicios-list li{
+  border: none;
+}
+
+.filtro {
+  position: absolute;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  z-index: 999;
+  left: 50px;
+  top: 0px;
+  background: none;
+  display: flex;
+  
+}
+
+
+.filtro ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Hace que los elementos se alineen horizontalmente */
+}
+
+.filtro li {
+  margin-right: 10px;
+}
+
+.filtro label {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.icono-servicio {
+  width: 30px; /* Ajusta el ancho del icono según lo desees */
+  height: 30px; /* Ajusta la altura del icono según lo desees */
+  margin-right: 10px;
+  margin-left: 10px; /* Agrega un margen a la derecha para separar el icono del texto */
+}
+
+
+.option-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid #3e73b3;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega sombra */
+}
+
+.option-container:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Cambia la sombra cuando se pasa el mouse */
+}
+
+
+.mapboxgl-popup {
+  border: 2px solid ; /* Define el borde con un grosor de 2px y color azul (#3e73b3) */
+  border-radius: 5px;
+  background-color: #34373c;
+  transition: width 0.9s ease; 
+}
+
+.mapboxgl-popup:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+
+.busqueda-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid rgb(72, 72, 72);
+  height: 60px;
+  padding: auto;
+ 
+
+  
+}
+
+.busqueda-container input {
+  width: 300px; /* Ajusta el ancho de la barra de búsqueda según lo desees */
+  height: 20px; /* Ajusta la altura de la barra de búsqueda según lo desees */
+  font-size: 16px;
+  border: none;
+  margin-left: 1px;
+   /* Ajusta el tamaño de la fuente según lo desees */
+}
+
+.menu-abierto .busqueda-container input{
+  width: 200px;
+}
+
+.busqueda-container input:focus {
+  outline: none; /* Elimina el borde de enfoque al hacer clic en el campo de búsqueda */
+}
+
+.busqueda-container button {
+   /* Ajusta la altura del botón según lo desees */
+  font-size: 16px;
+  background:none;
+  border: none;
+
+
+  /* Ajusta el tamaño de la fuente del botón según lo desees */
+}
+
+
+
+
+
+
 
