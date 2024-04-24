@@ -32,7 +32,7 @@ class ApiService{
                 "email" : email
             }
 
-            const response = await axios.post(Cliente_URL, nuevoCliente);
+            const response = await axios.post(Cliente_URL + "/save", nuevoCliente);
             return response.data;
         } catch (error) {
             console.error('Error creando cliente', error);
@@ -80,7 +80,7 @@ class ApiService{
                 "email" : email
             }
 
-            const response = await axios.post(Propietario_URL, nuevoPropietario);
+            const response = await axios.post(Propietario_URL + "/save", nuevoPropietario);
             return response.data;
         } catch (error) {
             console.error('Error creando propietario', error);
