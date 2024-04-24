@@ -40,24 +40,24 @@ class ApiService{
         }
     }
 
-    // getEmailByCliente = async (usuario) => {
-    //     try {
-    //       const response = await axios.get(Cliente_URL + "/email", {
-    //         params: {
-    //           usuario: usuario
-    //         }
-    //       });
+    getEmailByCliente = async (usuario) => {
+        try {
+          const response = await axios.get(Cliente_URL + "/email", {
+            params: {
+              usuario: usuario
+            }
+          });
       
-    //       if (response.status === 200) {
-    //         return response.data.email;
-    //       } else {
-    //         throw new Error('Error al obtener el email del usuario');
-    //       }
-    //     } catch (error) {
-    //       console.error('Error al obtener el email del usuario:', error);
-    //       throw error;
-    //     }
-    //   };
+          if (response.status === 200) {
+            return response.data;
+          } else {
+            throw new Error('Error al obtener el email del usuario');
+          }
+        } catch (error) {
+          console.error('Error al obtener el email del usuario:', error);
+          throw error;
+        }
+       };
 
 
     //Propietario
@@ -87,24 +87,24 @@ class ApiService{
             throw error;
         }
     }
-    // getEmailByPropietario = async (usuario) => {
-    //     try {
-    //       const response = await axios.get(Cliente_URL + "/email", {
-    //         params: {
-    //           usuario: usuario
-    //         }
-    //       });
+    getEmailByPropietario = async (usuario) => {
+        try {
+          const response = await axios.get(Propietario_URL + "/email", {
+            params: {
+              usuario: usuario
+            }
+          });
       
-    //       if (response.status === 200) {
-    //         return response.data.email;
-    //       } else {
-    //         throw new Error('Error al obtener el email del usuario');
-    //       }
-    //     } catch (error) {
-    //       console.error('Error al obtener el email del usuario:', error);
-    //       throw error;
-    //     }
-    //   };
+          if (response.status === 200) {
+            return response.data;
+          } else {
+            throw new Error('Error al obtener el email del usuario');
+          }
+        } catch (error) {
+          console.error('Error al obtener el email del usuario:', error);
+          throw error;
+        }
+      };
 
 
 
