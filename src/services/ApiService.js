@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useParams} from 'react-router-dom/dist';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 const USER_API_BASE_URL_TIENDAS = "http://localhost:8085/api/tienda";
 const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
 
@@ -235,11 +235,11 @@ class ApiService{
 
              if (res.data.message === "Cliente no existe") 
              {
-               alert("Cliente no existe");
+               console.log("Cliente no existe");
              } 
              else if(res.data.message === "Login Success")
              { 
-                alert ("Se ha iniciado sesión como cliente");
+                console.log("Se ha iniciado sesión como cliente");
              } 
                 // Devuelve la respuesta
             return res.data;
@@ -260,9 +260,9 @@ enviarDatosPropietario = async (usuario, contraseña, email) => {
         console.log(res.data);
 
         if (res.data.message === "Propietario no existe") {
-            alert("Propietario no existe");
+            console.log("Propietario no existe");
         } else if (res.data.message === "Login Success") {
-            alert("Se ha iniciado sesión como propietario");
+            console.log("Se ha iniciado sesión como propietario");
         }
 
         // Devuelve la respuesta

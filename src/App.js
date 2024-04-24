@@ -8,14 +8,15 @@ import Login from './Componentes/Login'; // Importa el componente Login
 import Reseña from './Componentes/Reseña'; //Importa el componente Reseña
 import Registro from './Componentes/Registro';
 import AñadeNegocio from './Componentes/AñadeNegocio';
-
 import {BrowserRouter,Route,Routes,Navigate} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import CrearNegocio from './Componentes/CrearNegocio';
 import Perfil from './Componentes/Perfil'; 
 
 function App() {
   return (
     <div className="App">
+
       <BrowserRouter>
       <Cabecera />
       <div className='container'>
@@ -35,6 +36,8 @@ function App() {
 
       </Routes>
       </div>
+      <ToastContainer />
+
       </BrowserRouter>
       
     </div>

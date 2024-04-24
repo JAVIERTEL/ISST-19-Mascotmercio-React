@@ -4,7 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import apiServiceInstance from '../services/ApiService';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../services/UserContext'; // Importar UserContext
+import { UserContext } from '../services/UserContext'; // Importar UserContex
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Login() {
   const [usuario, setUsuario] = useState('');
@@ -31,6 +34,7 @@ function Login() {
       //  // Actualizar el estado del usuario
        setUser({ name: usuario, email: userEmail });
        console.log(setUser)
+       toast.success('Te has logueado correctamente como cliente.'); // Muestra un mensaje de éxito
        navigate('/Map'); // Navega a la ruta del Mapa para los clientes
 
       }
@@ -52,11 +56,29 @@ function Login() {
       // Actualizar el estado del usuario
       setUser({ name: usuario, email: userEmail });
       console.log(setUser)
+      toast.success('Te has logueado correctamente como propetario.'); // Muestra un mensaje de éxito
+
       navigate('/Places'); // Navega a la ruta de Places para los propietarios
 
-       }
+       } 
     } catch (error) {
       console.error('Error al autenticar propietario:', error);
+      
+    }
+    try {
+      // Realiza una petición al servidor para autenticar al cliente
+      const responseCliente = await apiServiceInstance.enviarDatosCliente(usuario, contraseña,email);
+      console.log(responseCliente)
+    
+      // Realiza una petición al servidor para autenticar al propietario
+      const responsePropietario = await apiServiceInstance.enviarDatosPropietario(usuario, contraseña,email);
+      console.log(responsePropietario)
+    
+      if (responseCliente.status === false && responsePropietario.status === false) {
+        toast.error('Usuario o contraseña incorrectos.'); // Muestra un mensaje de error
+      }
+    } catch (error) {
+      console.error('Error al autenticar:', error);
     }
   
   };
