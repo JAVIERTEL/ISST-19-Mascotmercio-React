@@ -23,16 +23,17 @@ function Login() {
       // Realiza una petición al servidor para autenticar al cliente
       const responseCliente = await apiServiceInstance.enviarDatosCliente(usuario, contraseña,email);
       console.log(responseCliente)
-      // if (responseCliente.status === true) { // Asegúrate de comprobar el código de estado correcto
-      //   // Si la autenticación fue exitosa, obtener el email del usuario
-      //   const userEmail = await apiServiceInstance.getEmailByCliente(usuario);
-      //   console.log(userEmail);
+      if (responseCliente.status === true) { // Asegúrate de comprobar el código de estado correcto
+        // Si la autenticación fue exitosa, obtener el email del usuario
+        const userEmail = await apiServiceInstance.getEmailByCliente(usuario);
+        console.log(usuario);
+        console.log(userEmail);
       //  // Actualizar el estado del usuario
-       setUser({ name: usuario, email: email });
+       setUser({ name: usuario, email: userEmail });
        console.log(setUser)
        navigate('/Map'); // Navega a la ruta del Mapa para los clientes
 
-      // }
+      }
 
     } catch (error) {
       console.error('Error al autenticar cliente:', error);
@@ -45,10 +46,11 @@ function Login() {
       console.log(responsePropietario)
      
       if (responsePropietario.status === true) {
-      // const userEmail = await apiServiceInstance.getEmailByPropietario(usuario);
-      // console.log(userEmail);
+      const userEmail = await apiServiceInstance.getEmailByPropietario(usuario);
+      console.log(usuario);
+      console.log(userEmail);
       // Actualizar el estado del usuario
-      setUser({ name: usuario, email: email });
+      setUser({ name: usuario, email: userEmail });
       console.log(setUser)
       navigate('/Places'); // Navega a la ruta de Places para los propietarios
 
@@ -58,6 +60,7 @@ function Login() {
     }
   
   };
+  
   
 
   return (
