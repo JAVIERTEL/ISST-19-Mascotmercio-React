@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import apiServiceInstance from '../services/ApiService';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Axios from 'axios';
+import './../map.css'
 
 function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
@@ -15,8 +16,13 @@ function MapboxMap() {
 
 
     const geocodeAddress = async (direccion) => {
+<<<<<<< HEAD
         const addressToGeocode = `${direccion}.json`; // Corregido: Use de comillas invertidas (`) en lugar de comillas simples (')
         const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw';
+=======
+        const addressToGeocode = `${direccion}.json`; // Replace with your address
+        const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw'; // Replace with your Mapbox API key
+>>>>>>> e917b8c4ee9add3839811b8accd4032784b45ded
         const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
         const endpoint = `${addressToGeocode}.json`;
         const params = {
@@ -93,6 +99,7 @@ function MapboxMap() {
         fetchData();
     }, []);
 
+<<<<<<< HEAD
     useEffect(() => {
         if (servicios.length > 0) {
             const geocodeTiendas = async () => {
@@ -105,6 +112,10 @@ function MapboxMap() {
                 console.log('Tiendas con coordenadas', tiendasConCoordenadas);
             };
 
+=======
+    useEffect(()=> {
+        if (tiendas.length > 0) {
+>>>>>>> e917b8c4ee9add3839811b8accd4032784b45ded
             geocodeTiendas();
         }
     }, [tiendas,servicios]);
@@ -129,7 +140,11 @@ function MapboxMap() {
 
             const geojson = {
                 'type': 'FeatureCollection',
+<<<<<<< HEAD
                 'features': tiendasFiltradas.map((servicio, index) => ({
+=======
+                'features': tiendasConCoordenadas.map((tienda, index) => ({
+>>>>>>> e917b8c4ee9add3839811b8accd4032784b45ded
                     'type': 'Feature',
                     'properties': {
             'title': `<strong>${servicio.tienda.nombre}</strong>`,
@@ -263,9 +278,12 @@ function MapboxMap() {
 
     return (
         <div>
+<<<<<<< HEAD
               
 
 
+=======
+>>>>>>> e917b8c4ee9add3839811b8accd4032784b45ded
             <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
             <div className='filtro'>
                 <div className='busqueda-container'>
