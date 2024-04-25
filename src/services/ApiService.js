@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {useParams} from 'react-router-dom/dist';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import bcrypt from 'bcryptjs';
+
 const USER_API_BASE_URL_TIENDAS = "http://localhost:8085/api/tienda";
 const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
 
@@ -26,13 +27,16 @@ class ApiService{
 
     crearCliente = async (usuario, contrasena, email) => {
         try{
+            // Encripta la contraseña antes de enviarla al servidor
+            const contrasenaEncriptada = await bcrypt.hash(contrasena, 10);
+
             const nuevoCliente = {
                 "usuario" : usuario,
-                "contraseña": contrasena,
+                "contraseña": contrasenaEncriptada,
                 "email" : email
             }
 
-            const response = await axios.post(Cliente_URL + "/save", nuevoCliente);
+            const response = await axios.post(Cliente_URL, nuevoCliente);
             return response.data;
         } catch (error) {
             console.error('Error creando cliente', error);
@@ -74,13 +78,15 @@ class ApiService{
 
     crearPropietario = async (usuario, contrasena, email) => {
         try{
+            // Encripta la contraseña antes de enviarla al servidor
+            const contrasenaEncriptada = await bcrypt.hash(contrasena, 10);
             const nuevoPropietario = {
                 "usuario" : usuario,
-                "contraseña": contrasena,
+                "contraseña": contrasenaEncriptada,
                 "email" : email
             }
 
-            const response = await axios.post(Propietario_URL + "/save", nuevoPropietario);
+            const response = await axios.post(Propietario_URL, nuevoPropietario);
             return response.data;
         } catch (error) {
             console.error('Error creando propietario', error);
