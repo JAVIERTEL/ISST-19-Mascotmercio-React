@@ -32,7 +32,7 @@ function Cabecera() {
               <Nav.Link as={Link} to="Places"style={{ color: 'white' }}>Places</Nav.Link>
               <Nav.Link as={Link} to="Map"style={{ color: 'white' }}>Map</Nav.Link>
               {user && (
-          <Nav.Link onClick={handleProfileClick} style={{ color: 'white' }}>Perfil</Nav.Link>
+              <Nav.Link as={Link} to="Perfil" style={{ color: 'white' }}>Perfil</Nav.Link>
         )}
             </Nav>
           </Container>
