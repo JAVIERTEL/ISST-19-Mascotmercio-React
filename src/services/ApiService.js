@@ -8,7 +8,7 @@ const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
 
 const Cliente_URL = "http://localhost:8085/api/cliente";
 const Propietario_URL = "http://localhost:8085/api/propietario";
-const Resenas_URL = "http://localhost:8085/api/resenas";
+const Resena_URL = "http://localhost:8085/api/resena";
 
 
 class ApiService{
@@ -75,10 +75,47 @@ class ApiService{
 
     getResenas = async () => {
         try {
-            const response = await axios.get(Resenas_URL + '/findAll');
+            const response = await axios.get(Resena_URL + '/findAll');
             return response.data;
         } catch (error) {
             console.error('Error fetching reseñas', error);
+            throw error;
+        }
+    }
+
+    crearResena = async () => {
+        try{
+            const nuevaResena =   {
+                "idResena": "",
+                "autor": "",
+                "titulo": "",
+                "contenido": "",
+                "tienda": {
+                  "idTienda":"",
+                  "nombre": "",
+                  "direccion": "",
+                  "propietario": {
+                    "usuario": "",
+                    "contraseña": "",
+                    "email": ""
+                  }
+                },
+                "cliente": {
+                  "usuario": "",
+                  "contraseña": "",
+                  "email": ""
+                },
+                "propietario": {
+                  "usuario": "",
+                  "contraseña": "",
+                  "email": ""
+                }
+              }
+
+            const response = await axios.post(Resena_URL, nuevaResena);
+            return response.data;
+        } catch (error) {
+            console.error('Error creando reseña', error);
             throw error;
         }
     }
