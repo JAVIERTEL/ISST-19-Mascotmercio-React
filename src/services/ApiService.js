@@ -197,7 +197,7 @@ class ApiService{
                 "nombre": nombreTienda,
                 "direccion": direccion,
                 "propietario": {
-                    "usuario": "juan"
+                    "usuario": nombrePropietario
                 }
             });
             return response.data; // Retorna los datos de respuesta si es necesario
@@ -255,7 +255,7 @@ class ApiService{
         }
         };
    //Post propietario
-enviarDatosPropietario = async (usuario, contraseña, email) => {
+    enviarDatosPropietario = async (usuario, contraseña, email) => {
     try {
         console.log(usuario, contraseña, email);
         const res = await axios.post(Propietario_URL + "/login", {
@@ -317,7 +317,32 @@ actualizarServicio = async (idServicio, servicioActualizado) => {
     }
 };
 
-};
+updateUser = async (username, email) => {
+    try {
+        try {
+          const res = await axios.put(Propietario_URL + "/edit", {
+            "usuario": username,
+            "email": email,
+          });
+          console.log(res.data);
+          return res.data;
+        } catch (error) {
+          console.error('Error updating at first URL', error);
+          const res = await axios.put(Cliente_URL + "/edit", {
+            "usuario": username,
+            
+            "email": email,
+          });
+          console.log(res.data);
+          return res.data;
+        }
+      } catch (error) {
+        console.error('Error updating at second URL', error);
+        alert(error);
+      }
+  }
+
+}
 
 const apiServiceInstance = new ApiService();
 export default apiServiceInstance;

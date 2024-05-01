@@ -13,6 +13,7 @@ function Cabecera() {
     // Aquí puedes poner cualquier lógica de cierre de sesión que necesites
     // Por ejemplo, puedes resetear el estado del usuario a null
     setUser(null);
+    localStorage.removeItem('user');
 
     // Redirigir al usuario a la página de inicio
     navigate('/HomePage');

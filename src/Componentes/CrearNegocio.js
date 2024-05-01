@@ -2,16 +2,31 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom'; // Importar Link
 import apiServiceInstance from '../services/ApiService';
+import { useContext } from 'react';
+import { UserContext } from '../services/UserContext';
+
 
 function CrearNegocio() {
+    const { user, setUser } = useContext(UserContext);
+    const [username, setUsername] = useState(user ? user.name : '');
+    const [email, setEmail] = useState(user ? user.email : '');
+    
+
     const [nombreTienda, setNombreTienda] = useState('');
     const [direccion, setDireccion] = useState('');
-    const [nombrePropietario, setNombrePropietario] = useState('');
+    const [nombrePropietario, setNombrePropietario] = useState(username);
     const [admite_mascota, setAdmite_mascota] = useState(false);
     const [comida, setComida] = useState(false);
     const [ocio, setOcio] = useState(false);
     const [peluqueria, setPeluqueria] = useState(false);
     const [accesorios, setAccesorios] = useState(false);
+
+    
+
+    if (!user) {
+        return <p>Por favor, <Link to="/Login">inicia sesión</Link> para ver esta página.</p>;
+      }
+    
 
     // Función para generar un UUID numérico único
     const generarUUID = () => {
@@ -22,8 +37,9 @@ function CrearNegocio() {
         try {
             // Realizar una solicitud POST a /api/tienda usando la función de api.js
             const tiendaID = generarUUID(); // Genera un UUID único para el ID de la tienda
+            console.log(nombrePropietario);
             const tiendaResponse = await apiServiceInstance.enviarDatosTienda(tiendaID, nombreTienda, direccion, nombrePropietario);
-
+            
             const servicioID = generarUUID();
             // Realizar una solicitud POST a /api/servicio usando la función de api.js
             await apiServiceInstance.enviarDatosServicios(servicioID, admite_mascota, comida, ocio, peluqueria, accesorios, tiendaID);
@@ -59,7 +75,9 @@ function CrearNegocio() {
     }
 
     return (
+        
         <div style={{ display: 'flex', justifyContent: 'center' }}>
+            
             <div style={{ width: '50%', marginRight: 40, marginTop: 40 }}>
                 <h2>Rellena el formulario con los datos de tu negocio</h2>
                 <div>
@@ -69,10 +87,6 @@ function CrearNegocio() {
                 <div style={{ marginBottom: '15px' }}>
                     <label>Dirección:</label>
                     <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label>Nombre del Propietario:</label>
-                    <input type="text" value={nombrePropietario} onChange={(e) => setNombrePropietario(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} />
                 </div>
                 <div style={{ marginTop: '15px' }}>
                     {/* Utiliza un enlace Link con evento onClick */}

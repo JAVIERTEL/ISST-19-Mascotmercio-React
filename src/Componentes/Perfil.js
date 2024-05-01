@@ -1,15 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../services/UserContext';
 import ApiService from '../services/ApiService';
+import { Link } from 'react-router-dom';
 
 function Perfil() {
   const { user, setUser } = useContext(UserContext);
-  const [username, setUsername] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  
+
+  const [username, setUsername] = useState(user ? user.name : '');
+  const [email, setEmail] = useState(user ? user.email : '');
 
   if (!user) {
-    return <p>Por favor, inicia sesión para ver esta página.</p>;
+    return <p>Por favor, <Link to="/Login">inicia sesión</Link>  para ver esta página.</p>;
   }
+  
 
   const handleSave = async () => {
     try {
