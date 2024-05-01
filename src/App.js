@@ -8,11 +8,26 @@ import Login from './Componentes/Login'; // Importa el componente Login
 import Reseña from './Componentes/Reseña'; //Importa el componente Reseña
 import Registro from './Componentes/Registro';
 import AñadeNegocio from './Componentes/AñadeNegocio';
+import {BrowserRouter,Route,Routes,Navigate} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import CrearNegocio from './Componentes/CrearNegocio';
+import Perfil from './Componentes/Perfil'; 
+import { useEffect, useState } from 'react';
 
-import {BrowserRouter,Route,Routes} from "react-router-dom";
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Comprueba si hay información de usuario en el almacenamiento local al cargar la página
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <div className="App">
+
       <BrowserRouter>
       <Cabecera />
       <div className='container'>
@@ -24,11 +39,16 @@ function App() {
         <Route path='/Reseña' element={<Reseña/>}></Route>
         <Route path='/Login' element ={<Login/>}></Route>
         <Route path='/Registro' element ={<Registro/>}></Route>
-        <Route path='AñadeNegocio' element ={<AñadeNegocio/>}></Route>
+        <Route path='/AñadeNegocio/:idServicio' element={<AñadeNegocio />} />
+        <Route path='/CrearNegocio' element ={<CrearNegocio/>}></Route>
 
+        <Route path='/AñadeNegocio/Places' element={<Navigate to='/Places' />} />
+        <Route path="/perfil" element={<Perfil />} />
 
       </Routes>
       </div>
+      <ToastContainer />
+
       </BrowserRouter>
       
     </div>
