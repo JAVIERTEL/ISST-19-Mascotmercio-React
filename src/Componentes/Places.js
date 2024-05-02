@@ -11,7 +11,7 @@ function Places() {
     const [serviciosIdData, setServiciosIdData] = useState(null);
     const [updateId, setUpdateId] = useState(null); // Nuevo estado para almacenar el id al pulsar el botón "Update"
 
-    const { id } = useParams();
+
 
     useEffect(() => {
         fetchData();

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useParams} from 'react-router-dom/dist';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 const USER_API_BASE_URL_TIENDAS = "http://localhost:8085/api/tienda";
 const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
@@ -26,9 +27,12 @@ class ApiService{
 
     crearCliente = async (usuario, contrasena, email) => {
         try{
+            // Encripta la contraseña antes de enviarla al servidor
+            const contrasenaEncriptada = await bcrypt.hash(contrasena, 10);
+
             const nuevoCliente = {
                 "usuario" : usuario,
-                "contraseña": contrasena,
+                "contraseña": contrasenaEncriptada,
                 "email" : email
             }
 
@@ -74,9 +78,11 @@ class ApiService{
 
     crearPropietario = async (usuario, contrasena, email) => {
         try{
+            // Encripta la contraseña antes de enviarla al servidor
+            const contrasenaEncriptada = await bcrypt.hash(contrasena, 10);
             const nuevoPropietario = {
                 "usuario" : usuario,
-                "contraseña": contrasena,
+                "contraseña": contrasenaEncriptada,
                 "email" : email
             }
 
@@ -191,7 +197,7 @@ class ApiService{
                 "nombre": nombreTienda,
                 "direccion": direccion,
                 "propietario": {
-                    "usuario": "juan"
+                    "usuario": nombrePropietario
                 }
             });
             return response.data; // Retorna los datos de respuesta si es necesario
@@ -235,11 +241,11 @@ class ApiService{
 
              if (res.data.message === "Cliente no existe") 
              {
-               alert("Cliente no existe");
+               console.log("Cliente no existe");
              } 
              else if(res.data.message === "Login Success")
              { 
-                alert ("Se ha iniciado sesión como cliente");
+                console.log("Se ha iniciado sesión como cliente");
              } 
                 // Devuelve la respuesta
             return res.data;
@@ -249,7 +255,7 @@ class ApiService{
         }
         };
    //Post propietario
-enviarDatosPropietario = async (usuario, contraseña, email) => {
+    enviarDatosPropietario = async (usuario, contraseña, email) => {
     try {
         console.log(usuario, contraseña, email);
         const res = await axios.post(Propietario_URL + "/login", {
@@ -260,9 +266,9 @@ enviarDatosPropietario = async (usuario, contraseña, email) => {
         console.log(res.data);
 
         if (res.data.message === "Propietario no existe") {
-            alert("Propietario no existe");
+            console.log("Propietario no existe");
         } else if (res.data.message === "Login Success") {
-            alert("Se ha iniciado sesión como propietario");
+            console.log("Se ha iniciado sesión como propietario");
         }
 
         // Devuelve la respuesta
@@ -311,7 +317,32 @@ actualizarServicio = async (idServicio, servicioActualizado) => {
     }
 };
 
-};
+updateUser = async (username, email) => {
+    try {
+        try {
+          const res = await axios.put(Propietario_URL + "/edit", {
+            "usuario": username,
+            "email": email,
+          });
+          console.log(res.data);
+          return res.data;
+        } catch (error) {
+          console.error('Error updating at first URL', error);
+          const res = await axios.put(Cliente_URL + "/edit", {
+            "usuario": username,
+            
+            "email": email,
+          });
+          console.log(res.data);
+          return res.data;
+        }
+      } catch (error) {
+        console.error('Error updating at second URL', error);
+        alert(error);
+      }
+  }
+
+}
 
 const apiServiceInstance = new ApiService();
 export default apiServiceInstance;

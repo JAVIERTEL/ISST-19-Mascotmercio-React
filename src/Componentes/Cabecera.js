@@ -13,6 +13,7 @@ function Cabecera() {
     // Aquí puedes poner cualquier lógica de cierre de sesión que necesites
     // Por ejemplo, puedes resetear el estado del usuario a null
     setUser(null);
+    localStorage.removeItem('user');
 
     // Redirigir al usuario a la página de inicio
     navigate('/HomePage');
@@ -32,7 +33,7 @@ function Cabecera() {
               <Nav.Link as={Link} to="Places"style={{ color: 'white' }}>Places</Nav.Link>
               <Nav.Link as={Link} to="Map"style={{ color: 'white' }}>Map</Nav.Link>
               {user && (
-          <Nav.Link onClick={handleProfileClick} style={{ color: 'white' }}>Perfil</Nav.Link>
+              <Nav.Link as={Link} to="Perfil" style={{ color: 'white' }}>Perfil</Nav.Link>
         )}
             </Nav>
           </Container>

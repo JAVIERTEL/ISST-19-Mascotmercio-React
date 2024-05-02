@@ -1,67 +1,82 @@
-import React, { useState,useContext,useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import apiServiceInstance from '../services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../services/UserContext'; // Importar UserContext
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const [usuario, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [email, setEmail] = useState('');
-  const { user,setUser } = useContext(UserContext); // Acceder a setUser
+  const { user, setUser } = useContext(UserContext); // Acceder a setUser
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
+  useEffect(() => {
+    // Comprueba si hay información de usuario en el almacenamiento local al cargar la página
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let authenticationSuccessful = false; // Variable para controlar si la autenticación fue exitosa
+  
     try {
       // Realiza una petición al servidor para autenticar al cliente
-      const responseCliente = await apiServiceInstance.enviarDatosCliente(usuario, contraseña,email);
-      console.log(responseCliente)
-      if (responseCliente.status === true) { // Asegúrate de comprobar el código de estado correcto
-        // Si la autenticación fue exitosa, obtener el email del usuario
-        const userEmail = await apiServiceInstance.getEmailByCliente(usuario);
-        console.log(usuario);
-        console.log(userEmail);
-      //  // Actualizar el estado del usuario
-       setUser({ name: usuario, email: userEmail });
-       console.log(setUser)
-       navigate('/Map'); // Navega a la ruta del Mapa para los clientes
-
+      const responseCliente = await apiServiceInstance.enviarDatosCliente(usuario, contraseña, email);
+      if (responseCliente.status === true) {
+        handleLoginSuccess(responseCliente, 'cliente');
+        authenticationSuccessful = true; // Marca la autenticación como exitosa
+        return;
       }
-
     } catch (error) {
       console.error('Error al autenticar cliente:', error);
-    
     }
   
     try {
       // Realiza una petición al servidor para autenticar al propietario
-      const responsePropietario = await apiServiceInstance.enviarDatosPropietario(usuario, contraseña,email);
-      console.log(responsePropietario)
-     
+      const responsePropietario = await apiServiceInstance.enviarDatosPropietario(usuario, contraseña, email);
       if (responsePropietario.status === true) {
-      const userEmail = await apiServiceInstance.getEmailByPropietario(usuario);
-      console.log(usuario);
-      console.log(userEmail);
-      // Actualizar el estado del usuario
-      setUser({ name: usuario, email: userEmail });
-      console.log(setUser)
-      navigate('/Places'); // Navega a la ruta de Places para los propietarios
-
-       }
+        handleLoginSuccess(responsePropietario, 'propietario');
+        authenticationSuccessful = true; // Marca la autenticación como exitosa
+        return;
+      }
     } catch (error) {
       console.error('Error al autenticar propietario:', error);
     }
   
+    // Si ninguno de los intentos de autenticación fue exitoso, muestra el mensaje de error
+    if (!authenticationSuccessful) {
+      toast.error('Usuario o contraseña incorrectos.');
+    }
   };
   
-  
+
+  const handleLoginSuccess = async (response, userType) => {
+    try {
+      let userEmail;
+      if (userType === 'cliente') {
+        userEmail = await apiServiceInstance.getEmailByCliente(usuario);
+      } else if (userType === 'propietario') {
+        userEmail = await apiServiceInstance.getEmailByPropietario(usuario);
+      }
+      // Actualiza el estado del usuario
+      setUser({ name: usuario, email: userEmail });
+      // Guarda el usuario en el almacenamiento local
+      localStorage.setItem('user', JSON.stringify({ name: usuario, email: userEmail, type: userType }));
+      toast.success(`Te has logueado correctamente como ${userType}.`);
+      navigate(userType === 'cliente' ? '/Map' : '/Places');
+    } catch (error) {
+      console.error(`Error al autenticar ${userType}:`, error);
+      toast.error(`Error al autenticar ${userType}. Por favor, inténtalo de nuevo más tarde.`);
+    }
+  };
 
   return (
     <div className="login-container" style={{ maxWidth: '500px', margin: '0 auto' }}>
@@ -76,9 +91,7 @@ function Login() {
           <input type="password" id="password" className="form-control" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
         </div>
         <div className="d-grid gap-2 mb-3">
-        <Link to="/places">
-          <Button variant="primary" type="submit" onClick={handleSubmit}>Iniciar sesión</Button>
-        </Link>
+          <Button variant="primary" type="submit">Iniciar sesión</Button>
         </div>
         <p className="mb-0 text-center">¿No tienes una cuenta? <Link to="/registro">Regístrate</Link></p>
       </form>
