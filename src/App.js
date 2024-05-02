@@ -13,6 +13,8 @@ import { ToastContainer } from 'react-toastify';
 import CrearNegocio from './Componentes/CrearNegocio';
 import Perfil from './Componentes/Perfil'; 
 import { useEffect, useState } from 'react';
+import AboutUs from './Componentes/AboutUs';
+import Faq from './Componentes/Faq';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,6 +36,10 @@ function App() {
         <Routes>
         <Route exact path='/' element ={<HomePage/>}></Route>
         <Route path='/HomePage' element ={<HomePage/>}></Route>
+        <Route path='/AboutUs' element ={<AboutUs/>}></Route>
+        <Route path='/Faq' element ={<Faq/>}></Route>
+
+
         <Route path='/Map' element ={<Map/>}></Route>
         <Route path='/Places' element ={<Places/>}></Route>
         <Route path='/Reseña' element={<Reseña/>}></Route>

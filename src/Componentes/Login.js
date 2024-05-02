@@ -71,7 +71,7 @@ function Login() {
       // Guarda el usuario en el almacenamiento local
       localStorage.setItem('user', JSON.stringify({ name: usuario, email: userEmail, type: userType }));
       toast.success(`Te has logueado correctamente como ${userType}.`);
-      navigate(userType === 'cliente' ? '/Map' : '/Places');
+      navigate('/Places'); // Redirecciona a /Places después de iniciar sesión
     } catch (error) {
       console.error(`Error al autenticar ${userType}:`, error);
       toast.error(`Error al autenticar ${userType}. Por favor, inténtalo de nuevo más tarde.`);
