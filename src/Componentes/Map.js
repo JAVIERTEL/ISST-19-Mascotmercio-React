@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import apiServiceInstance from '../services/ApiService';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Axios from 'axios';
-import './../map.css'
 
 function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
@@ -16,8 +15,8 @@ function MapboxMap() {
 
 
     const geocodeAddress = async (direccion) => {
-        const addressToGeocode = `${direccion}.json`; // Replace with your address
-        const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw'; // Replace with your Mapbox API key
+        const addressToGeocode = `${direccion}.json`; // Corregido: Use de comillas invertidas (`) en lugar de comillas simples (')
+        const mapboxApiKey = 'pk.eyJ1IjoiYWxlamFuZHJvbWRlbGFtb3JlbmEiLCJhIjoiY2x1ZWRydmxiMTdmdDJqbnNuZ2dmOG13byJ9.hgXHzxrICsmRH4kPljAEvw';
         const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
         const endpoint = `${addressToGeocode}.json`;
         const params = {
@@ -94,8 +93,18 @@ function MapboxMap() {
         fetchData();
     }, []);
 
-    useEffect(()=> {
-        if (tiendas.length > 0) {
+    useEffect(() => {
+        if (servicios.length > 0) {
+            const geocodeTiendas = async () => {
+                const tiendasConCoordenadas = await Promise.all(servicios.map(async (servicio) => {
+                    const coordenadas = await geocodeAddress(servicio.tienda.direccion);
+                    return { ...servicio, coordenadas };
+                }));
+
+                setTiendasConCoordenadas(tiendasConCoordenadas.filter(tienda => tienda.coordenadas !== null));
+                console.log('Tiendas con coordenadas', tiendasConCoordenadas);
+            };
+
             geocodeTiendas();
         }
     }, [tiendas,servicios]);
@@ -120,7 +129,7 @@ function MapboxMap() {
 
             const geojson = {
                 'type': 'FeatureCollection',
-                'features': tiendasConCoordenadas.map((tienda, index) => ({
+                'features': tiendasFiltradas.map((servicio, index) => ({
                     'type': 'Feature',
                     'properties': {
             'title': `<strong>${servicio.tienda.nombre}</strong>`,
@@ -254,6 +263,9 @@ function MapboxMap() {
 
     return (
         <div>
+              
+
+
             <div id="map-container" className={menuAbierto ? 'menu-abierto' : ''}>
             <div className='filtro'>
                 <div className='busqueda-container'>
