@@ -3,11 +3,18 @@ import Button from 'react-bootstrap/Button';
 import { Link, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import apiServiceInstance from '../services/ApiService';
+import { useContext } from 'react';
+import { UserContext } from '../services/UserContext';
 
 function AñadeNegocio({ id }) {
+
+    const { user, setUser } = useContext(UserContext);
+    const [username, setUsername] = useState(user ? user.name : '');
+    const [email, setEmail] = useState(user ? user.email : '');
+
     const [nombreTienda, setNombreTienda] = useState('');
     const [direccion, setDireccion] = useState('');
-    const [nombrePropietario, setNombrePropietario] = useState('');
+    const [nombrePropietario, setNombrePropietario] = useState(username);
 
     const [admite_mascota, setAdmite_mascota] = useState(false);
     const [comida, setComida] = useState(false);
@@ -92,10 +99,6 @@ const handleSubmit = async (e) => {
                 <div className="form-group">
                     <label htmlFor="direccion">Dirección:</label>
                     <input type="text" className="form-control" id="direccion" value={direccion} onChange={(e) => setDireccion(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="nombrePropietario">Nombre del Propietario:</label>
-                    <input type="text" className="form-control" id="nombrePropietario" value={nombrePropietario} onChange={(e) => setNombrePropietario(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required />
                 </div>
                 <div style={{ marginTop: '15px' }}>
                     <Button style={{ backgroundColor: '#45B69D ', fontWeight: 'bold', textShadow: '1px 1px 2px #000000', padding: '3px 35px', fontSize: '20px', marginBottom: 20 }} onClick={handleSubmit}>Guardar</Button>

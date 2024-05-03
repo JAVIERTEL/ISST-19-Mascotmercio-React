@@ -1,90 +1,70 @@
 import React, { useState } from 'react';
-import StarRatingComponent from 'react-star-rating-component';
-import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
-const Reseñas = () => {
-  const [reviews, setReviews] = useState([]);
-  const [newReview, setNewReview] = useState({
-    text: '',
-    rating: 0,
-    photos: [],
-  });
+import { useLocation } from 'react-router-dom'; 
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewReview((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+function Reseña(props) {
+  const [autor, setAutor] = useState('');
+  const [titulo, setTitulo] = useState('');
+  const [contenido, setContenido] = useState('');
+ 
+   // Utiliza useLocation para acceder a la ubicación actual
+   const location = useLocation();
+   // Obtiene la tienda del estado de la ubicación
+   const tienda = location.state?.servicio.tienda;
 
-  const onStarClick = (nextValue) => {
-    setNewReview((prevState) => ({
-      ...prevState,
-      rating: nextValue,
-    }));
-  };
+  console.log(tienda);
 
-  const handlePhotoUpload = (e) => {
-    const files = e.target.files;
-    const uploadedPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
-    setNewReview((prevState) => ({
-      ...prevState,
-      photos: prevState.photos.concat(uploadedPhotos),
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setReviews((prevReviews) => [...prevReviews, newReview]);
-    setNewReview({
-      text: '',
-      rating: 0,
-      photos: [],
-    });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Crea un objeto con los datos de la reseña y la tienda
+    const nuevaResena = {
+      autor: autor,
+      titulo: titulo,
+      contenido: contenido,
+      tienda: tienda // Pasar la tienda como parte de la reseña
+    };
+    
+    // Reinicia los campos del formulario después de enviar la reseña
+    setAutor('');
+    setTitulo('');
+    setContenido('');
   };
 
   return (
-    <div>
-      <h2>Reseñas</h2>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          name="text"
-          value={newReview.text}
-          onChange={handleInputChange}
-          placeholder="Escribe tu reseña aquí..."
-          required
-        />
-        <input type="file" multiple onChange={handlePhotoUpload} />
-        <StarRatingComponent
-          name="rating"
-          starCount={5}
-          value={newReview.rating}
-          onStarClick={onStarClick}
-        />
-        <Button type="submit">Enviar reseña</Button>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <form onSubmit={handleSubmit} style={{ width: '300px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+        <div style={{ marginBottom: '15px' }}>
+          <label htmlFor="autor">Autor:</label>
+          <input
+            type="text"
+            id="autor"
+            value={autor}
+            onChange={(event) => setAutor(event.target.value)}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '5px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label htmlFor="titulo">Título:</label>
+          <input
+            type="text"
+            id="titulo"
+            value={titulo}
+            onChange={(event) => setTitulo(event.target.value)}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '5px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label htmlFor="contenido">Contenido:</label>
+          <textarea
+            id="contenido"
+            value={contenido}
+            onChange={(event) => setContenido(event.target.value)}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '5px' }}
+          ></textarea>
+        </div>
+        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', padding: '10px 20px', cursor: 'pointer' }}>Enviar</button>
       </form>
-      <div>
-        {reviews.map((review, index) => (
-          <div key={index}>
-            <p>{review.text}</p>
-            <StarRatingComponent
-              name={`rating-${index}`}
-              starCount={5}
-              value={review.rating}
-              editing={false}
-            />
-            <div>
-              {review.photos.map((photo, i) => (
-                <img key={i} src={photo} alt={`Photo ${i}`} style={{ maxWidth: '100px' }} />
-              ))}
-            </div>
-            {/* Aquí podría ir la sección para que los propietarios respondan */}
-          </div>
-        ))}
-      </div>
     </div>
   );
-};
+}
 
-export default Reseñas;
+export default Reseña;

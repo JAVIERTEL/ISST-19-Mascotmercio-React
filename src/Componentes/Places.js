@@ -95,16 +95,16 @@ function Places() {
                             </td>
 
                             <td>
-                                <>
+                                
 
 
                                     {user && user.type === 'propietario' && ( // Verifica si el usuario es cliente
-                                        <Link to="/reseña" style={{ marginLeft: '10px' }}>
-                                            {/* Aquí se establece el estado updateId cuando se pulsa el botón "Update" */}
+                                            <>
                                             <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }} onClick={() => handleServicioById(servicio.idServicio)}>Update</Button>
-                                            <Button variant="danger" style={{ backgroundColor: '#E74C3C', textShadow: '1px 1px 2px #000000' }} onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>                                    </Link>
+                                            <Button variant="danger" style={{ backgroundColor: '#E74C3C', textShadow: '1px 1px 2px #000000' }} onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>                               
+                                            </>
                                     )}
-                                </>
+                                
                                 {user && user.type === 'cliente' && ( // Verifica si el usuario es cliente
                                     <Link to="/reseña" style={{ marginLeft: '10px' }}>
                                         <Button variant="outline-secondary">Reseñas</Button>
