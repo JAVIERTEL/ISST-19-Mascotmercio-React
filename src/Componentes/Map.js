@@ -3,6 +3,8 @@ import mapboxgl from 'mapbox-gl';
 import apiServiceInstance from '../services/ApiService';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import { Link, useParams } from 'react-router-dom';
 
 function MapboxMap() {
     const [tiendas, setTiendas] = useState([]);
@@ -219,6 +221,10 @@ function MapboxMap() {
                                 <strong>{servicio.tienda.nombre}</strong>
                                 <p>{servicio.tienda.direccion}</p>
                                 <ul className='servicios-list'>
+                                <Link to={`/reseña/${servicio.tienda.idTienda}`} style={{ marginLeft: '10px' }}>
+                                        <Button variant="outline-secondary">Reseñas</Button>
+                                        </Link>
+
                                 {Object.entries(servicio).map(([clave, valor]) => (
                
                                 (clave !== 'nombre' && clave !== 'direccion' && typeof valor === 'boolean' && valor) && 
@@ -231,7 +237,8 @@ function MapboxMap() {
 
                                  {clave.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} {/* Capitaliza la primera letra de cada palabra */}
                                  </li>
-                                ))}
+                                )
+                                )}
                                    
                                 </ul>
                             </li>

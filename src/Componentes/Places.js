@@ -15,6 +15,10 @@ function Places() {
     const [resenaId, setResenaId] = useState(null); // Nuevo estado para almacenar el id al pulsar el botón "Update"
 
 
+    console.log(user)
+    console.log(tiendaIdData)
+
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -111,8 +115,8 @@ function Places() {
                             <td>
                                 
 
-
-                                    {user && user.type === 'propietario' && ( // Verifica si el usuario es cliente
+                           
+                            {user && user.type === 'propietario' && servicio.tienda.propietario.usuario === user.name && (
                                             <>
                                             <Button variant="primary" style={{ backgroundColor: '#2E86C1', textShadow: '1px 1px 2px #000000' }} onClick={() => handleServicioById(servicio.idServicio)}>Update</Button>
                                             <Button variant="danger" style={{ backgroundColor: '#E74C3C', textShadow: '1px 1px 2px #000000' }} onClick={() => handleDeleteServicio(servicio.idServicio)}>Delete</Button>                               
