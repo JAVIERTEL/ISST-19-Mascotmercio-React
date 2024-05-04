@@ -12,6 +12,8 @@ function Places() {
     const [tiendaIdData, setTiendaIdData] = useState(null);
     const [serviciosIdData, setServiciosIdData] = useState(null);
     const [updateId, setUpdateId] = useState(null); // Nuevo estado para almacenar el id al pulsar el botón "Update"
+    const [resenaId, setResenaId] = useState(null); // Nuevo estado para almacenar el id al pulsar el botón "Update"
+
 
     useEffect(() => {
         fetchData();
@@ -51,6 +53,18 @@ function Places() {
             setServiciosIdData(ServiciosIdData);
             setUpdateId(id); // Almacena el id cuando se pulsa el botón "Update"
         } catch (error) {
+            console.error('Error enviando tienda:', error);
+        }
+    };
+
+    const handleResena = async (id) => {
+        try {
+            const ServiciosIdData = await apiServiceInstance.getServicioById(id);
+            const TiendaIdData = await apiServiceInstance.getTiendaById(ServiciosIdData.tienda.idTienda);
+            setTiendaIdData(TiendaIdData);
+            setServiciosIdData(ServiciosIdData);
+            setResenaId(tiendaIdData); // Almacena el id cuando se pulsa el botón "Reseña"
+                } catch (error) {
             console.error('Error enviando tienda:', error);
         }
     };
@@ -106,9 +120,9 @@ function Places() {
                                     )}
                                 
                                 {user && user.type === 'cliente' && ( // Verifica si el usuario es cliente
-                                    <Link to="/reseña" style={{ marginLeft: '10px' }}>
+                                        <Link to={`/reseña/${servicio.tienda.idTienda}`} style={{ marginLeft: '10px' }}>
                                         <Button variant="outline-secondary">Reseñas</Button>
-                                    </Link>
+                                        </Link>
                                 )}
                             </td>
                         </tr>

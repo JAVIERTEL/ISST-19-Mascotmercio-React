@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 const USER_API_BASE_URL_TIENDAS = "http://localhost:8085/api/tienda";
 const USER_API_BASE_URL_SERVICIOS = "http://localhost:8085/api/servicio";
 
+
  
 const Cliente_URL = "http://localhost:8085/api/cliente";
 const Propietario_URL = "http://localhost:8085/api/propietario";
@@ -330,7 +331,6 @@ updateUser = async (username, email) => {
           console.error('Error updating at first URL', error);
           const res = await axios.put(Cliente_URL + "/edit", {
             "usuario": username,
-            
             "email": email,
           });
           console.log(res.data);
@@ -341,6 +341,27 @@ updateUser = async (username, email) => {
         alert(error);
       }
   }
+
+  enviarDatosResena = async (id, autor, titulo, contenido, idTienda, idCliente) => {
+    try {
+        const response = await axios.post(Resenas_URL, {
+            "idResena": id, // Se incluye el ID de la reseña en la solicitud
+            "autor": autor,
+            "titulo": titulo,
+            "contenido": contenido,
+            "tienda": {
+                "idTienda": idTienda
+            },
+            "cliente": {
+                "usuario": idCliente
+            }
+        }
+        );
+        return response.data; // Retorna los datos de respuesta si es necesario
+    } catch (error) {
+        throw error; // Lanza el error para manejarlo en el componente
+    }
+};
 
 }
 

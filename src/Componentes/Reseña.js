@@ -1,47 +1,67 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../services/UserContext';
+import apiServiceInstance from '../services/ApiService';
+import { Link } from 'react-router-dom';
 
-function Reseña(props) {
-  const [autor, setAutor] = useState('');
+function Reseña() {
+  const { user, setUser } = useContext(UserContext);
+  
+
+  const [username, setUsername] = useState(user ? user.name : '');
+  const [email, setEmail] = useState(user ? user.email : '');
+
+  const [autor, setAutor] = useState(username);
   const [titulo, setTitulo] = useState('');
   const [contenido, setContenido] = useState('');
- 
-   // Utiliza useLocation para acceder a la ubicación actual
-   const location = useLocation();
-   // Obtiene la tienda del estado de la ubicación
-   const tienda = location.state?.servicio.tienda;
+  
+  const tiendaId = useParams().idTienda;
 
-  console.log(tienda);
+  if (!user) {
+    return <p>Por favor, <Link to="/Login">inicia sesión</Link> para ver esta página.</p>;
+  }
+  
+// Función para generar un UUID numérico único
+const generarUUID = () => {
+  return Math.floor(Math.random() * Date.now()).toString();
+};
 
-  const handleSubmit = (event) => {
+
+
+  console.log( autor, // autor
+      titulo,
+      contenido,
+      tiendaId,
+      username )
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Crea un objeto con los datos de la reseña y la tienda
-    const nuevaResena = {
-      autor: autor,
-      titulo: titulo,
-      contenido: contenido,
-      tienda: tienda // Pasar la tienda como parte de la reseña
-    };
+    try {
+      const resenaId = generarUUID();
+      // Llama a la función enviarDatosResena del servicio ApiService
+      await apiServiceInstance.enviarDatosResena(
+        resenaId,
+        autor, // autor
+        titulo,
+        contenido,
+        tiendaId,
+        username // idCliente
+      );
+
     
-    // Reinicia los campos del formulario después de enviar la reseña
-    setAutor('');
-    setTitulo('');
-    setContenido('');
+
+      // Lógica adicional después de enviar los datos...
+      console.log('Datos de reseña enviados exitosamente.');
+    } catch (error) {
+      console.error('Error enviando reseña:', error);
+    }
+    
+  
   };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <form onSubmit={handleSubmit} style={{ width: '300px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="autor">Autor:</label>
-          <input
-            type="text"
-            id="autor"
-            value={autor}
-            onChange={(event) => setAutor(event.target.value)}
-            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '5px' }}
-          />
-        </div>
         <div style={{ marginBottom: '15px' }}>
           <label htmlFor="titulo">Título:</label>
           <input

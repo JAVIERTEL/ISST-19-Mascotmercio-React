@@ -42,7 +42,7 @@ function App() {
 
         <Route path='/Map' element ={<Map/>}></Route>
         <Route path='/Places' element ={<Places/>}></Route>
-        <Route path='/Reseña' element={<Reseña/>}></Route>
+        <Route path='/Reseña/:idTienda' element={<Reseña/>}></Route>
         <Route path='/Login' element ={<Login/>}></Route>
         <Route path='/Registro' element ={<Registro/>}></Route>
         <Route path='/AñadeNegocio/:idServicio' element={<AñadeNegocio />} />
