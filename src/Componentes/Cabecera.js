@@ -39,7 +39,7 @@ function Cabecera() {
 
 
               {user && (
-              <Nav.Link as={Link} to="Perfil" style={{ color: 'white' }}>Perfil</Nav.Link>
+              <Nav.Link as={Link} to="Perfil" style={{ color: 'white' }}>Profile</Nav.Link>
         )}
             </Nav>
           </Container>

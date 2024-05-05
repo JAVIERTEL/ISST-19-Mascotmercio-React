@@ -363,6 +363,17 @@ updateUser = async (username, email) => {
     }
 };
 
+// Reseñas
+obtenerReseñas = async () => {
+    try {
+        const response = await axios.get(Resenas_URL + '/findAll');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching tiendas:', error);
+        throw error; // Re-throw the error to handle it in the calling code
+    }
+}
+
 }
 
 const apiServiceInstance = new ApiService();

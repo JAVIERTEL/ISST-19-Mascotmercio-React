@@ -3,17 +3,13 @@ import { UserContext } from '../services/UserContext';
 import ApiService from '../services/ApiService';
 import { Link } from 'react-router-dom';
 
+// Importa el icono de usuario
+import IconoUsuario from '../userIcon.png';
+
 function Perfil() {
   const { user, setUser } = useContext(UserContext);
-  
-
   const [username, setUsername] = useState(user ? user.name : '');
   const [email, setEmail] = useState(user ? user.email : '');
-
-  if (!user) {
-    return <p>Por favor, <Link to="/Login">inicia sesión</Link>  para ver esta página.</p>;
-  }
-  
 
   const handleSave = async () => {
     try {
@@ -25,19 +21,22 @@ function Perfil() {
   };
 
   return (
-    <div>
-      <h1>Perfil</h1>
-      <form>
-        <label>
-          Nombre de usuario:
-          <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
-        </label>
-        <button type="button" onClick={handleSave}>Guardar</button>
-      </form>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '45vh' }}>
+      <h1>Perfil de usuario</h1>
+      <div style={{ display: 'flex', alignItems: 'center', marginTop: '30px' }}>
+
+        {/* Muestra el icono de usuario */}
+        <img src={IconoUsuario} alt="Icono de Usuario" style={{ width: '100px', marginRight: '20px' }} />
+
+        {/* Contenedor para los datos del usuario */}
+        <div style={{ borderRadius: '5px', padding: '20px', borderRadius: '8px', border: '2px solid #008080', fontSize: '1.3rem' }}>
+
+          {/* Muestra los datos del usuario */}
+          <p><strong>Nombre de usuario:</strong> {username}</p>
+          <p><strong>Email:</strong> {email}</p>
+
+        </div>
+      </div>
     </div>
   );
 }
