@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import apiServiceInstance from '../services/ApiService';
+import { toast } from 'react-toastify';
 
 
 function Registro() {
@@ -12,14 +13,20 @@ function Registro() {
   const [contrasena, setContrasena] = useState('');
   //const [contrasena2, setContrasena2] = useState('');
   const [esPropietario, setEsPropietario] = useState(false);
+  const [contrasenaRepetida, setContrasenaRepetida] = useState('');
+  const navigate = useNavigate();
 
 
   const handleCrear = async(usuario, contrasena, email)  => {
-
+    if (contrasena !==contrasenaRepetida){
+      toast.error('Las contraseñas no coinciden')
+      return false; // Devuelve false si alguna caja de texto está vacía
+      
+    }
     if (!email || !usuario || !contrasena) {
-      alert('Por favor, completa todos los campos.');
-      return; // No hacer nada si alguna caja de texto está vacía
-  }
+      toast.error('Por favor, completa todos los campos.');
+      return false; // Devuelve false si alguna caja de texto está vacía
+    }
     try {
 
       if (esPropietario) {
@@ -30,13 +37,22 @@ function Registro() {
         await apiServiceInstance.crearCliente(usuario, contrasena, email);
     }
     
-      //await apiServiceInstance.crearCliente(usuario, contrasena, email);
+    toast.success('Registro exitoso.');    
       
+      return true; // Devuelve true si el registro fue exitoso
+
   } catch (error) {
       console.error('Error creando cliente:', error);
-  }
-  }
+      return false; // Devuelve false si hubo un error
 
+  } }
+
+  const handleRegistro = async () => {
+    const registroExitoso = await handleCrear(usuario, contrasena, email);
+    if (registroExitoso) {
+      navigate('/login');
+    }
+  }
 
   return (
     <div className="register-container" style={{ maxWidth: '500px', margin: '0 auto' }}>
@@ -55,16 +71,14 @@ function Registro() {
       </div>
       <div className="form-group mb-3">
         <label htmlFor="password2" className="form-label">Repetir Contraseña:</label>
-        <input type="password" id="password2" className="form-control" />
+        <input type="password" id="password2" className="form-control"  value = {contrasenaRepetida} onChange= {(e) => setContrasenaRepetida(e.target.value)}/>
       </div>
       <div className="d-grid mb-3">
       <div className="form-check mb-3">
                     <input type="checkbox" className="form-check-input" id="propietario" checked={esPropietario} onChange={() => setEsPropietario(!esPropietario)} />
                     <label className="form-check-label" htmlFor="propietario">Registrarse como propietario</label>
                 </div>
-      <Link to="/places">
-        <Button variant="success" type="submit" onClick= {() => handleCrear(usuario, contrasena, email)}>Regístrate</Button>
-        </Link>
+        <Button variant="success" type="submit" onClick= {handleRegistro}>Regístrate</Button>
       </div>
       <p className="mb-0 text-center">¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link></p>
     </div>

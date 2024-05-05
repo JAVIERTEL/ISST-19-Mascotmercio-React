@@ -15,6 +15,7 @@ import Perfil from './Componentes/Perfil';
 import { useEffect, useState } from 'react';
 import AboutUs from './Componentes/AboutUs';
 import Faq from './Componentes/Faq';
+import ProtectedComponent from './services/ProtectedComponent';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -38,10 +39,8 @@ function App() {
         <Route path='/HomePage' element ={<HomePage/>}></Route>
         <Route path='/AboutUs' element ={<AboutUs/>}></Route>
         <Route path='/Faq' element ={<Faq/>}></Route>
-
-
-        <Route path='/Map' element ={<Map/>}></Route>
-        <Route path='/Places' element ={<Places/>}></Route>
+        <Route path="/Map" element={<ProtectedComponent><Map /></ProtectedComponent>} />
+        <Route path="/Places" element={<ProtectedComponent><Places /></ProtectedComponent>} />
         <Route path='/Reseña/:idTienda' element={<Reseña/>}></Route>
         <Route path='/Login' element ={<Login/>}></Route>
         <Route path='/Registro' element ={<Registro/>}></Route>
