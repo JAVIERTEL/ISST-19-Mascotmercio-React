@@ -60,29 +60,31 @@ function Reseña() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', padding: '20px' }}>
-      <form onSubmit={handleSubmit} style={{ width: '45%', marginRight: '20px', fontSize: '1.2rem' }}>
-        <h2>Deja tu reseña de la tienda <em>{reseñas.length > 0 && reseñas[0].tienda.nombre}</em></h2>
-        <div style={{ marginBottom: '15px', marginTop: '20px' }}>
-          <label htmlFor="titulo">Título:</label>
-          <input
-            type="text"
-            id="titulo"
-            value={titulo}
-            onChange={(event) => setTitulo(event.target.value)}
-            style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
-          />
-        </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="contenido">Cuéntanos cómo fue tu experiencia:</label>
-          <textarea
-            id="contenido"
-            value={contenido}
-            onChange={(event) => setContenido(event.target.value)}
-            style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', background: '#f5f5f5' }}
-          ></textarea>
-        </div>
-        <button type="submit" style={{ backgroundColor: '#008080', color: '#fff', border: 'none', borderRadius: '5px', padding: '10px 20px', cursor: 'pointer', width: '100%' }}>Enviar</button>
-      </form>
+      {user.type !== 'propietario' && (
+        <form onSubmit={handleSubmit} style={{ width: '45%', marginRight: '20px', fontSize: '1.2rem' }}>
+          <h2>Deja tu reseña de la tienda <em>{reseñas.length > 0 && reseñas[0].tienda.nombre}</em></h2>
+          <div style={{ marginBottom: '15px', marginTop: '20px' }}>
+            <label htmlFor="titulo">Título:</label>
+            <input
+              type="text"
+              id="titulo"
+              value={titulo}
+              onChange={(event) => setTitulo(event.target.value)}
+              style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+          </div>
+          <div style={{ marginBottom: '15px' }}>
+            <label htmlFor="contenido">Cuéntanos cómo fue tu experiencia:</label>
+            <textarea
+              id="contenido"
+              value={contenido}
+              onChange={(event) => setContenido(event.target.value)}
+              style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', background: '#f5f5f5' }}
+            ></textarea>
+          </div>
+          <button type="submit" style={{ backgroundColor: '#008080', color: '#fff', border: 'none', borderRadius: '5px', padding: '10px 20px', cursor: 'pointer', width: '100%' }}>Enviar</button>
+        </form>
+      )}
       <div style={{ width: '50%', fontSize: '1.2rem' }}>
         <h2>Otras reseñas</h2>
         {reseñas.map(resena => (
