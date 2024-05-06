@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Mascotmercio - Portal de Ocio para Mascotas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Descripción:**
 
-## Available Scripts
+"Mascotmercio" es un portal diseñado para facilitar la integración de mascotas, en particular perros, en los planes de ocio en Madrid. Con la creciente tendencia de considerar a las mascotas como miembros de la familia, esta aplicación busca conectar a los establecimientos de ocio que están dispuestos a recibir clientes con animales.
 
-In the project directory, you can run:
+**Funcionalidades Principales:**
 
-### `npm start`
+- **Registro de Establecimientos:**
+  - Los establecimientos pueden mostrar su disposición a recibir clientela con mascotas.
+  - Opción de ofrecer productos o servicios específicos para mascotas.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Consulta en el Mapa:**
+  - Los usuarios pueden explorar la oferta de establecimientos en un mapa interactivo.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Valoraciones y Experiencias:**
+  - Los clientes pueden dejar valoraciones.
 
-### `npm test`
+ <hr>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+**Tecnologías Utilizadas**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  - Frontend: React
+  - Backend: Spring Boot
+  - Base de datos: PostgreSQL
+  - Administración de la base de datos: pgAdmin 4
+  - Java: JDK 17
+  - Gestión de dependencias: Maven
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<hr>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+**Instalación**
+  - Para ejecutar este proyecto localmente, sigue estos pasos:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Prerrequisitos:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  - Node.js y npm: Puedes descargarlos desde [aquí](https://nodejs.org/en).
+  - Java 17: Puedes descargarlo desde [aquí](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+  - Maven: Puedes descargarlo desde [aquí](https://maven.apache.org/download.cgi).
+  - PostgreSQL: Puedes descargarlo desde [aquí](https://www.postgresql.org/download/).
+  - pgAdmin 4: Puedes descargarlo desde [aquí](https://www.pgadmin.org/download/).
+  
+- Pasos
+  
+  - Clona este repositorio en tu máquina local:
+   `git clone https://github.com/JAVIERTEL/ISST-19-Mascotmercio-React.git`
+  - Clone el repositorio perteneciente al backend en tu máquina local:
+   `git clone https://github.com/JAVIERTEL/ISST-19-Mascotmercio.git`
+  - Navega hasta el directorio del proyecto.
+  - Para iniciar el servidor Spring Boot, navega hasta el directorio del backend y ejecuta `mvn spring-boot:run`.
+  - Para iniciar la aplicación React, navega hasta el directorio del frontend y ejecuta `npm install` seguido de `npm start`.
+    
+<hr>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Documentación del Proyecto**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Este repositorio también incluye documentación adicional para entender mejor el proyecto:
 
-## Learn More
+  - Documento de Visión: Describe la visión general del proyecto, los objetivos y los stakeholders.
+  - Plan de Desarrollo de Software: Detalla el plan para el desarrollo del software, incluyendo el cronograma y los recursos necesarios.
+  - Diseño de Software: Proporciona una descripción detallada de la arquitectura del software y los componentes del sistema.
+  - Casos de Prueba: Describe los casos de prueba utilizados para verificar la funcionalidad del software.
+    
+ <hr>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Integrantes**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [María Lozano (mlozan)](https://github.com/mlozan)
+- [Marina Lumbreras (mlumbrerasl02)](https://github.com/mlumbrerasl02)
+- [Alejandro Muñoz (AlexProGraphics)](https://github.com/AlexProGraphics)
+- [Ignacio Diez (ignacioo-diez)](https://github.com/ignacioo-diez)
+- [Javier González (JAVIERTEL)](https://github.com/JAVIERTEL)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+🐾✨
